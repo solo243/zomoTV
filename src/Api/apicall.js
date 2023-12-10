@@ -29,7 +29,7 @@ export const Moviesfetch = ({ page }) => {
   return apicall(url);
 };
 
-export const Genra = ({ page }) => {
-  const url = `${baseurl}/meta/anilist/advanced-search?genres=["Comedy"]&&page=${page}`;
-  return apicall(url) && console.log;
+export const Genra = (genra, page) => {
+  const url = `${baseurl}/meta/anilist/advanced-search?genres=["${genra}"]&&page=${page}`;
+  return apicall(url);
 };
