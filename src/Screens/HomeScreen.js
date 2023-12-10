@@ -14,16 +14,23 @@ import { RFValue } from "react-native-responsive-fontsize";
 import TopBanner from "../components/HomeScreen/TopBanner";
 import GenraTitleBlock from "../components/HomeScreen/GenraTitleBlock";
 import AnimeCard from "../components/HomeScreen/AnimeCard";
-import { TrendingAnime, RecentEP, Moviesfetch, Popular } from "../Api/apicall";
+import {
+  TrendingAnime,
+  RecentEP,
+  Moviesfetch,
+  Popular,
+  Genra,
+} from "../Api/apicall";
 
 const HomeScreen = () => {
   const [trending, settrending] = useState();
 
   useEffect(() => {
-    trendingdata(1);
+    // trendingdata(1);
     // RecentEPS(1);
-    PopularFetch(1);
-    Movies(1);
+    // PopularFetch(1);
+    // Movies(1);
+    GenraFuse(1);
   }, []);
 
   const fetchData = async (functions, page, setData) => {
@@ -37,6 +44,18 @@ const HomeScreen = () => {
 
   const trendingdata = async (page) => {
     fetchData(TrendingAnime, page, settrending);
+  };
+
+  // const Genravice = async (page) => {
+  //   const call = await Genra({action});
+  //   const pp = await call;
+  //   console.log("This is a ACton anime ........................", pp);
+  // };
+
+  const GenraFuse = async () => {
+    const call = await Genra(1);
+    const pp = await call;
+    console.log(pp);
   };
 
   const [popular, setpopular] = useState();
@@ -61,13 +80,6 @@ const HomeScreen = () => {
         <ScrollView>
           {/* //TODO Hero Banner From the Component */}
           <TopBanner data={trending} />
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          ></View>
           {/* //TODO this is a aall anime section  */}
           <View style={styles.all_anime_list_container}>
             <View>

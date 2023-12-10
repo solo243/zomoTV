@@ -2,11 +2,17 @@ import { View, Text, Image, FlatList, StyleSheet } from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import { Colors } from "../../ConstStyles/ColorFont";
 import { RFValue } from "react-native-responsive-fontsize";
+import { FlashList } from "@shopify/flash-list";
 
 const AnimeCard = ({ data }) => {
   const renderItem = ({ item }) => (
     <View>
-      <Image source={{ uri: item.image }} style={styles.PosterImage} />
+      <Image
+        source={{
+          uri: item.image,
+        }}
+        style={styles.PosterImage}
+      />
       {/* <Text
         style={{
           height: moderateScale(20),
@@ -22,7 +28,7 @@ const AnimeCard = ({ data }) => {
       </Text> */}
       <View style={styles.Tiltle_container}>
         <Text numberOfLines={1} style={styles.title}>
-          {item.title?.english ?? 'NA'}
+          {item.title?.english ?? "NA"}
         </Text>
         <Text style={styles.Radate_Rating}>
           {item.releaseDate ?? "NA"} - Rating {item.rating ?? "NA"}
@@ -32,11 +38,12 @@ const AnimeCard = ({ data }) => {
   );
   return (
     <View style={styles.container}>
-      <FlatList
+      <FlashList
         horizontal
+        estimatedItemSize={90}
         data={data ?? [1, 2, 3, 4, 5, 6]}
-        estimatedItemSize={80}
-        estimatedListSize={{ height: 120, width: "100%" }}
+        // estimatedItemSize={80}
+        // estimatedListSize={{ height: 120, width: "100%" }}
         showsHorizontalScrollIndicator={false}
         renderItem={renderItem}
       />
@@ -54,6 +61,7 @@ const styles = StyleSheet.create({
     height: moderateScale(210),
     maxWidth: 200,
     maxHeight: 300,
+    // flex: 1,
     marginRight: 15,
     marginTop: 20,
     backgroundColor: "grey",

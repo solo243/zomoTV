@@ -11,7 +11,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "./src/ConstStyles/ColorFont";
 import { moderateScale } from "react-native-size-matters";
 import { StatusBar } from "react-native";
-
+import { BlurView } from "expo-blur";
+import { StyleSheet } from "react-native";
 const Tab = createBottomTabNavigator();
 export default function App() {
   return (
@@ -28,6 +29,18 @@ export default function App() {
             borderTopWidth: 0,
             height: moderateScale(57),
           },
+          tabBarBackground: () => (
+            <BlurView
+              intensity={80}
+              style={{
+                // ...StyleSheet.absoluteFillObject,
+                overflow: "hidden",
+                background: "transparent",
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}
+            />
+          ),
         }}
       >
         <Tab.Screen

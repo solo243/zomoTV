@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "../ConstStyles/ColorFont";
@@ -27,7 +28,7 @@ const SearchScreen = () => {
   //     console.log("Error this ===> ", e);
   //   }
   // };
-
+  const data = [1, 2, 3, 4, 5, 6, 7];
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
@@ -75,29 +76,33 @@ const SearchScreen = () => {
               flexDirection: "row",
               flexWrap: "wrap",
               width: "90%",
-              // gap: 10,
               alignSelf: "center",
+              display: "flex",
+              flex: 1,
+              marginTop: 30,
+              marginBottom: 20,
               // backgroundColor: "red",
             }}
           >
             <FlatList
+              data={data}
               numColumns={2}
-              showsHorizontalScrollIndicator={false}
-              data={[1, 2, 3, 4, 5, 6]}
               renderItem={({ item }) => (
                 <View
                   style={{
-                    margin: 10,
-                    height: RFValue(200),
-                    maxHeight: 300,
-                    width: RFValue(140),
+                    flex: 1,
+                    height: moderateScale(235),
+                    maxHeight: moderateScale(240),
                     borderRadius: 10,
-                    backgroundColor: "grey",
+                    width: moderateScale(14),
+                    maxWidth: moderateScale(160),
+                    backgroundColor: "blue",
+                    margin: 10,
                   }}
                 >
                   <Image
-                    source={require("./ph.jpg")}
-                    style={{ width: "100%", borderRadius: 10, height: "100%" }}
+                    source={"./ph.jpg"}
+                    style={{ height: 200, width: 200 }}
                   />
                 </View>
               )}
@@ -109,4 +114,10 @@ const SearchScreen = () => {
   );
 };
 
+
+const styles = StyleSheet.create({
+  container: {
+    
+  }
+})
 export default SearchScreen;

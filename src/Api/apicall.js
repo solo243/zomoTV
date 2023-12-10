@@ -30,5 +30,6 @@ export const Moviesfetch = ({ page }) => {
 };
 
 export const Genra = ({ page }) => {
-  const url = `${baseurl}`;
+  const url = `${baseurl}/meta/anilist/advanced-search?genres=["Comedy"]&&page=${page}`;
+  return apicall(url) && console.log;
 };
