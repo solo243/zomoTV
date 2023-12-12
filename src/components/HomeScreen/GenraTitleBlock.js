@@ -4,11 +4,13 @@ import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Colors } from "../../ConstStyles/ColorFont";
 
-const GenraTitleBlock = ({ GenraName }) => {
+const GenraTitleBlock = ({ GenraName, navigation, data }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.Fonts}>{GenraName}</Text>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Seeall", { data: data })}
+      >
         <Text style={styles.see_all}>See all</Text>
       </TouchableOpacity>
     </View>

@@ -42,10 +42,9 @@ const AnimeCard = ({ data }) => {
         horizontal
         estimatedItemSize={90}
         data={data ?? [1, 2, 3, 4, 5, 6]}
-        // estimatedItemSize={80}
-        // estimatedListSize={{ height: 120, width: "100%" }}
         showsHorizontalScrollIndicator={false}
         renderItem={renderItem}
+        key={data?.id}
       />
     </View>
   );
@@ -61,7 +60,6 @@ const styles = StyleSheet.create({
     height: moderateScale(210),
     maxWidth: 200,
     maxHeight: 300,
-    // flex: 1,
     marginRight: 15,
     marginTop: 20,
     backgroundColor: "grey",

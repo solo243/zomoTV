@@ -1,9 +1,4 @@
-import {
-  View,
-
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "../ConstStyles/ColorFont";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,8 +13,9 @@ import {
   Popular,
   Genra,
 } from "../Api/apicall";
+import QuotesBlock from "../components/HomeScreen/QuotesBlock";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [trending, settrending] = useState();
 
   useEffect(() => {
@@ -37,6 +33,9 @@ const HomeScreen = () => {
     }
     if (!sports) {
       sportscall("Sports", 1);
+    }
+    if (!romace) {
+      romacecall("Romance", 1);
     }
   }, []);
 
@@ -63,7 +62,12 @@ const HomeScreen = () => {
   const sportscall = async (genra, page) => {
     GenraFetchingFunc(genra, page, setsports);
   };
-  848;
+
+  const [romace, Setromace] = useState();
+  const romacecall = async (genra, page) => {
+    GenraFetchingFunc(genra, page, Setromace);
+    // console.log("This is romace anime......", romace);
+  };
 
   const trendingdata = async (page) => {
     fetchData(TrendingAnime, page, settrending);
@@ -94,17 +98,38 @@ const HomeScreen = () => {
           {/* //TODO this is a aall anime section  */}
           <View style={styles.all_anime_list_container}>
             <View>
-              <GenraTitleBlock GenraName={"Popular Anime"} />
+              <GenraTitleBlock
+                GenraName={"Popular Anime"}
+                navigation={navigation}
+                data={popular}
+              />
               <View style={{ width: "100%", minHeight: 200 }}>
                 <AnimeCard data={popular} />
               </View>
             </View>
+            <QuotesBlock />
             <View style={{ marginTop: 22 }}>
-              <GenraTitleBlock GenraName={"Popular Movies"} />
+              <GenraTitleBlock
+                GenraName={"Popular Movies"}
+                navigation={navigation}
+                data={movie}
+              />
               <AnimeCard data={movie} />
             </View>
             <View style={{ marginTop: 22 }}>
-              <GenraTitleBlock GenraName={"Sports Anime"} />
+              <GenraTitleBlock
+                GenraName={"Romace Anime"}
+                navigation={navigation}
+                data={romace}
+              />
+              <AnimeCard data={romace} />
+            </View>
+            <View style={{ marginTop: 22 }}>
+              <GenraTitleBlock
+                GenraName={"Sports Anime"}
+                navigation={navigation}
+                data={sports}
+              />
               <AnimeCard data={sports} />
             </View>
           </View>

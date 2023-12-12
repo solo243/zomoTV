@@ -114,10 +114,7 @@ const SearchScreen = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
-  container: {
-    
-  }
-})
+  container: {},
+});
 export default SearchScreen;
