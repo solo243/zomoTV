@@ -16,7 +16,8 @@ import { BlurView } from "expo-blur";
 import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SeeAll from "./src/Screens/SeeAll";
-
+import React from "react";
+import { Easing } from "react-native";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
@@ -25,6 +26,7 @@ const TabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: Colors.Main_Color,
@@ -130,6 +132,25 @@ const TabNavigator = () => {
   );
 };
 
+const config = {
+  animation: "spring",
+  config: {
+    stiffness: 1000,
+    damping: 50,
+    mass: 3,
+    overshootClamping: false,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
+const closeConfig = {
+  animation: "timing",
+  config: {
+    duration: 200,
+    easing: Easing.linear,
+  },
+};
+
 const StackScreens = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -137,6 +158,11 @@ const StackScreens = () => {
         name="MainScreen"
         component={TabNavigator}
         options={{
+          // gestureDirection: "vertical",
+          // transitionSpec: {
+          //   open: config,
+          //   close: closeConfig,
+          // },
           presentation: "modal",
           animationTypeForReplace: "push",
           animation: "slide_from_right",
@@ -145,11 +171,11 @@ const StackScreens = () => {
       <Stack.Screen
         name="Seeall"
         component={SeeAll}
-        options={{
-          presentation: "modal",
-          animationTypeForReplace: "push",
-          animation: "slide_from_right",
-        }}
+        // options={{
+        //   presentation: "modal",
+        //   animationTypeForReplace: "push",
+        //   animation: "slide_from_right",
+        // }}
       />
     </Stack.Navigator>
   );

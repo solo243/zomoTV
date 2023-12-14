@@ -4,6 +4,7 @@ const apicall = async (endpoint) => {
   const call = await fetch(endpoint);
   const convert = await call.json();
   const data = convert.results;
+  // const data = convert;
   return data;
 };
 

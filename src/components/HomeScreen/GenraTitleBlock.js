@@ -9,7 +9,7 @@ const GenraTitleBlock = ({ GenraName, navigation, data }) => {
     <View style={styles.container}>
       <Text style={styles.Fonts}>{GenraName}</Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Seeall", { data: data })}
+        onPress={() => navigation.navigate("Seeall", { data: data ,title: GenraName})}
       >
         <Text style={styles.see_all}>See all</Text>
       </TouchableOpacity>

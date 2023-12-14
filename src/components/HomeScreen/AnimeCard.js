@@ -3,7 +3,7 @@ import { moderateScale } from "react-native-size-matters";
 import { Colors } from "../../ConstStyles/ColorFont";
 import { RFValue } from "react-native-responsive-fontsize";
 import { FlashList } from "@shopify/flash-list";
-
+  88
 const AnimeCard = ({ data }) => {
   const renderItem = ({ item }) => (
     <View>
@@ -13,19 +13,6 @@ const AnimeCard = ({ data }) => {
         }}
         style={styles.PosterImage}
       />
-      {/* <Text
-        style={{
-          height: moderateScale(20),
-          position: "absolute",
-          padding: 3,
-          // width: moderateScale(20),
-          marginTop: moderateScale(18),
-          borderTopStartRadius: 16,
-          backgroundColor: "red",
-        }}
-      >
-        {item.type}
-      </Text> */}
       <View style={styles.Tiltle_container}>
         <Text numberOfLines={1} style={styles.title}>
           {item.title?.english ?? "NA"}

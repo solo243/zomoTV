@@ -108,7 +108,7 @@ const HomeScreen = ({ navigation }) => {
               </View>
             </View>
             <QuotesBlock />
-            <View style={{ marginTop: 22 }}>
+            <View style={styles.cont_topmargin}>
               <GenraTitleBlock
                 GenraName={"Popular Movies"}
                 navigation={navigation}
@@ -116,7 +116,7 @@ const HomeScreen = ({ navigation }) => {
               />
               <AnimeCard data={movie} />
             </View>
-            <View style={{ marginTop: 22 }}>
+            <View style={styles.cont_topmargin}>
               <GenraTitleBlock
                 GenraName={"Romace Anime"}
                 navigation={navigation}
@@ -124,7 +124,7 @@ const HomeScreen = ({ navigation }) => {
               />
               <AnimeCard data={romace} />
             </View>
-            <View style={{ marginTop: 22 }}>
+            <View style={styles.cont_topmargin}>
               <GenraTitleBlock
                 GenraName={"Sports Anime"}
                 navigation={navigation}
@@ -143,6 +143,9 @@ const styles = StyleSheet.create({
     marginTop: moderateScale(40),
     width: "95%",
     marginStart: moderateScale(20),
+  },
+  cont_topmargin: {
+    marginTop: 22,
   },
 });
 export default HomeScreen;
