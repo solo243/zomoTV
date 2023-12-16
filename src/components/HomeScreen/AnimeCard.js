@@ -1,27 +1,41 @@
-import { View, Text, Image, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import { Colors } from "../../ConstStyles/ColorFont";
 import { RFValue } from "react-native-responsive-fontsize";
 import { FlashList } from "@shopify/flash-list";
-  88
-const AnimeCard = ({ data }) => {
+
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+const AnimeCard = ({ data, navigation }) => {
   const renderItem = ({ item }) => (
-    <View>
-      <Image
-        source={{
-          uri: item.image,
-        }}
-        style={styles.PosterImage}
-      />
-      <View style={styles.Tiltle_container}>
-        <Text numberOfLines={1} style={styles.title}>
-          {item.title?.english ?? "NA"}
-        </Text>
-        <Text style={styles.Radate_Rating}>
-          {item.releaseDate ?? "NA"} - Rating {item.rating ?? "NA"}
-        </Text>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Detail", { id: item.id })}
+    >
+      <View>
+        <Image
+          source={{
+            uri: item.poster,
+          }}
+          style={styles.PosterImage}
+        />
+        <View style={styles.Tiltle_container}>
+          <Text numberOfLines={1} style={styles.title}>
+            {item.name ?? "NA"}
+          </Text>
+          <Text style={styles.Radate_Rating}>
+            {item.type ?? "NA"} - Rating {item.rating ?? "NA"}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
   return (
     <View style={styles.container}>
@@ -44,14 +58,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   PosterImage: {
-    height: moderateScale(210),
+    // height: moderateScale(210),
+    height: height * 0.275,
     maxWidth: 200,
     maxHeight: 300,
     marginRight: 15,
     marginTop: 20,
     backgroundColor: "grey",
     borderRadius: 9,
-    width: moderateScale(140),
+    // width: moderateScale(140),
+    width: width * 0.36,
   },
   Tiltle_container: {
     marginTop: 10,

@@ -6,50 +6,52 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "../ConstStyles/ColorFont";
 import { Octicons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale } from "react-native-size-matters";
 import { Search } from "../Api/apicall";
+import _ from "lodash";
 
+const height = Dimensions.get("window").height;
+const width = Dimensions.get("window").width;
 const SearchScreen = () => {
   const [SearchQuerys, SetsearchQuery] = useState();
+  const [data, setdata] = useState([]);
 
-  // const Searchcall = async (value, page) => {
-  //   SetsearchQuery(value);
-  //   try {
-  //     const FFk = await Search(SearchQuerys,1);
-  //     console.log(FFk)
-  //   } catch (e) {
-  //     console.log("Error this ===> ", e);
-  //   }
-  // };
-  const data = [1, 2, 3, 4, 5, 6, 7];
+  const handletext = async (value) => {
+    console.log(value);
+    SetsearchQuery(value);
+    if (!SearchQuerys) return null;
+    if (SearchQuerys.length > 3) {
+      const url = `https://aniwatch-api-solo243.vercel.app/anime/search?q=${SearchQuerys}&page=1`;
+      const response = await fetch(url);
+      const jj = await response.json();
+      setdata(jj.animes);
+    } else {
+      console.log("small hai ");
+    }
+  };
+
+  useEffect(() => {
+    const debouncedFetchData = setTimeout(() => {
+      handletext(SearchQuerys);
+    }, 600);
+    return () => clearTimeout(debouncedFetchData);
+  }, [SearchQuerys]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
         <View>
-          <View
-            style={{
-              marginTop: 30,
-              height: moderateScale(50),
-              width: "90%",
-              alignSelf: "center",
-              borderRadius: 10,
-              flexDirection: "row",
-              borderColor: "#F0F2F1",
-              borderWidth: 1,
-              // backgroundColor: "",
-            }}
-          >
+          <View style={styles.searchContainer}>
             <Octicons
               name="search"
-              size={25}
-              color="red"
+              size={moderateScale(20)}
+              color={Colors.Top_Btn_Color}
               style={{
                 alignSelf: "center",
                 marginStart: 20,
@@ -57,56 +59,30 @@ const SearchScreen = () => {
             />
             <TextInput
               value={SearchQuerys}
-              // onChangeText={Searchcall}
-              style={{
-                marginStart: 20,
-                fontWeight: "600",
-                fontSize: RFValue(13),
-                width: "70%",
-                color: "#F0F2F1",
-              }}
+              onChangeText={(text) => SetsearchQuery(text)}
+              style={styles.Search_Container}
               placeholder="Search....."
               placeholderTextColor={"#F0F2F1"}
             ></TextInput>
           </View>
         </View>
         <ScrollView>
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              width: "90%",
-              alignSelf: "center",
-              display: "flex",
-              flex: 1,
-              marginTop: 30,
-              marginBottom: 20,
-              // backgroundColor: "red",
-            }}
-          >
-            <FlatList
-              data={data}
-              numColumns={2}
-              renderItem={({ item }) => (
-                <View
-                  style={{
-                    flex: 1,
-                    height: moderateScale(235),
-                    maxHeight: moderateScale(240),
-                    borderRadius: 10,
-                    width: moderateScale(14),
-                    maxWidth: moderateScale(160),
-                    backgroundColor: "blue",
-                    margin: 10,
-                  }}
-                >
-                  <Image
-                    source={"./ph.jpg"}
-                    style={{ height: 200, width: 200 }}
-                  />
+          <View style={styles.result_container}>
+            {data ? (
+              data.map((item) => (
+                <View>
+                  <Image source={{ uri: item.poster }} style={styles.image} />
+                  <View style={styles.title_container}>
+                    <Text style={styles.title}>{item.name}</Text>
+                    <Text style={styles.rating}>
+                      {item.type ?? "NA"} - Rating - {item.rating ?? "NA"}
+                    </Text>
+                  </View>
                 </View>
-              )}
-            />
+              ))
+            ) : (
+              <View></View>
+            )}
           </View>
         </ScrollView>
       </View>
@@ -115,6 +91,64 @@ const SearchScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  searchContainer: {
+    marginBottom: 10,
+    marginTop: 30,
+    height: moderateScale(50),
+    width: "90%",
+    alignSelf: "center",
+    borderRadius: 10,
+    flexDirection: "row",
+    borderColor: "#F0F2F1",
+    borderWidth: 1,
+  },
+  Search_Container: {
+    marginStart: 20,
+    fontWeight: "600",
+    fontSize: RFValue(13),
+    width: "70%",
+    color: "#F0F2F1",
+  },
+  result_container: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    alignSelf: "center",
+    display: "flex",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 30,
+    marginBottom: 20,
+  },
+  image: {
+    height: height * 0.3,
+    width: width * 0.4,
+    maxHeight: 380,
+    borderRadius: 10,
+    maxWidth: 250,
+    backgroundColor: "grey",
+    margin: 10,
+  },
+  title_container: {
+    height: height * 0.02,
+    width: width * 0.4,
+    maxHeight: 380,
+    borderRadius: 10,
+    maxWidth: 250,
+    margin: 10,
+    marginBottom: "14%",
+    marginTop: "-1%",
+  },
+  title: {
+    color: "white",
+    fontSize: RFValue(12),
+    textAlign: "center",
+  },
+  rating: {
+    color: "grey",
+    textAlign: "center",
+    fontSize: RFValue(10),
+  },
 });
 export default SearchScreen;

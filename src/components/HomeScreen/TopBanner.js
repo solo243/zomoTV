@@ -18,19 +18,19 @@ import React from "react";
 
 const width = Dimensions.get("screen").width;
 const TopBanner = ({ data }) => {
-  console.log(data);
-  const renderComponent = ({ item }) => <View style={{ width: "100%" }}></View>;
+
 
   return (
     <FlatList
       pagingEnabled
       horizontal
+      showsHorizontalScrollIndicator={false}
       data={data ?? [1, 2, 3, 4, 5]}
       renderItem={({ item }) => (
         <View style={styles.container}>
           <Image
             source={{
-              uri: item.image,
+              uri: item.poster,
             }}
             style={styles.bannerImage}
           />
@@ -42,7 +42,7 @@ const TopBanner = ({ data }) => {
           />
           <View style={styles.boxTitleandBtn}>
             <Text numberOfLines={1} style={styles.bannerTitle}>
-              {item.title?.english ?? "NA"}
+              {item?.name ?? "NA"}
             </Text>
             <View style={{ flexDirection: "row", gap: moderateScale(12) }}>
               <TouchableOpacity style={styles.playBtn}>

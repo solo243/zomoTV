@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   see_all: {
-    color: "red",
+    color: Colors.Top_Btn_Color,
     fontWeight: "500",
     marginTop: moderateScale(6),
     marginRight: moderateScale(14),

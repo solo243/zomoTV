@@ -17,8 +17,12 @@ import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SeeAll from "./src/Screens/SeeAll";
 import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Easing } from "react-native";
-const Stack = createStackNavigator();
+import DetailScreen from "./src/Screens/DetailScreen";
+// const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
+
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
@@ -56,13 +60,13 @@ const TabNavigator = () => {
             focused ? (
               <Ionicons
                 name="home"
-                size={28}
-                color={Colors.Bottom_Bar_Active}
+                size={moderateScale(24)}
+                color={Colors.Top_Btn_Color}
               />
             ) : (
               <Ionicons
                 name="home-outline"
-                size={28}
+                size={moderateScale(24)}
                 color={Colors.Bottom_Bar_Passive}
               />
             ),
@@ -76,13 +80,13 @@ const TabNavigator = () => {
             focused ? (
               <FontAwesome
                 name="search"
-                size={28}
-                color={Colors.Bottom_Bar_Active}
+                size={moderateScale(24)}
+                color={Colors.Top_Btn_Color}
               />
             ) : (
               <Feather
                 name="search"
-                size={28}
+                size={moderateScale(24)}
                 color={Colors.Bottom_Bar_Passive}
               />
             ),
@@ -96,13 +100,13 @@ const TabNavigator = () => {
             focused ? (
               <Ionicons
                 name="bookmarks"
-                size={25}
-                color={Colors.Bottom_Bar_Active}
+                size={moderateScale(22)}
+                color={Colors.Top_Btn_Color}
               />
             ) : (
               <Ionicons
                 name="bookmarks-outline"
-                size={24}
+                size={moderateScale(22)}
                 color={Colors.Bottom_Bar_Passive}
               />
             ),
@@ -116,13 +120,13 @@ const TabNavigator = () => {
             focused ? (
               <MaterialCommunityIcons
                 name="account-cowboy-hat"
-                size={29}
-                color={Colors.Bottom_Bar_Active}
+                size={moderateScale(24)}
+                color={Colors.Top_Btn_Color}
               />
             ) : (
               <MaterialCommunityIcons
                 name="account-cowboy-hat-outline"
-                size={29}
+                size={moderateScale(24)}
                 color={Colors.Bottom_Bar_Passive}
               />
             ),
@@ -177,6 +181,7 @@ const StackScreens = () => {
         //   animation: "slide_from_right",
         // }}
       />
+      <Stack.Screen name="Detail" component={DetailScreen} />
     </Stack.Navigator>
   );
 };

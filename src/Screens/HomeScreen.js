@@ -2,7 +2,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "../ConstStyles/ColorFont";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { moderateScale } from "react-native-size-matters";
+import { moderateScale, verticalScale } from "react-native-size-matters";
 import TopBanner from "../components/HomeScreen/TopBanner";
 import GenraTitleBlock from "../components/HomeScreen/GenraTitleBlock";
 import AnimeCard from "../components/HomeScreen/AnimeCard";
@@ -12,6 +12,9 @@ import {
   Moviesfetch,
   Popular,
   Genra,
+  HomepageFetch,
+  Movies,
+  GenraFetch,
 } from "../Api/apicall";
 import QuotesBlock from "../components/HomeScreen/QuotesBlock";
 
@@ -19,24 +22,27 @@ const HomeScreen = ({ navigation }) => {
   const [trending, settrending] = useState();
 
   useEffect(() => {
-    if (!trending) {
-      trendingdata(1);
-    }
-    if (!popular) {
-      PopularFetch(1);
-    }
-    if (!RecentEPdata) {
-      RecentEPS(1);
-    }
-    if (!movie) {
-      Movies(1);
-    }
-    if (!sports) {
-      sportscall("Sports", 1);
-    }
-    if (!romace) {
-      romacecall("Romance", 1);
-    }
+    fetchdata();
+    movieFetch(1);
+    Action("Action", 1);
+    // if (!trending) {
+    //   trendingdata(1);
+    // }
+    // if (!popular) {
+    //   PopularFetch(1);
+    // }
+    // if (!RecentEPdata) {
+    //   RecentEPS(1);
+    // }
+    // if (!movie) {
+    //   Movies(1);
+    // }
+    // if (!sports) {
+    //   sportscall("Sports", 1);
+    // }
+    // if (!romace) {
+    //   romacecall("Romance", 1);
+    // }
   }, []);
 
   const fetchData = async (functions, page, setData) => {
@@ -50,43 +56,41 @@ const HomeScreen = ({ navigation }) => {
 
   const GenraFetchingFunc = async (genra, page, setData) => {
     try {
-      const data = await Genra(genra, page);
-      setData(data);
+      const data = await GenraFetch(genra, page);
+      setData(data?.animes);
     } catch (e) {
       console.log(e);
     }
   };
 
   const [sports, setsports] = useState();
-
-  const sportscall = async (genra, page) => {
-    GenraFetchingFunc(genra, page, setsports);
-  };
-
   const [romace, Setromace] = useState();
-  const romacecall = async (genra, page) => {
-    GenraFetchingFunc(genra, page, Setromace);
-    // console.log("This is romace anime......", romace);
-  };
-
-  const trendingdata = async (page) => {
-    fetchData(TrendingAnime, page, settrending);
-  };
+  // const romacecall = async (genra, page) => {
+  //   GenraFetchingFunc(genra, page, Setromace);
+  // };
 
   const [popular, setpopular] = useState();
-  const PopularFetch = async (page) => {
-    fetchData(Popular, page, setpopular);
-  };
-
   const [RecentEPdata, setRecentEPdata] = useState();
-  const RecentEPS = async (page) => {
-    fetchData(RecentEP, page, setRecentEPdata);
+  const [topAir, setTopAir] = useState();
+
+  const [animeOfWeek, setAnimeOfWeek] = useState();
+  const fetchdata = async () => {
+    const call = await HomepageFetch();
+    settrending(call?.trendingAnimes);
+    setRecentEPdata(call?.latestEpisodeAnimes);
+    setTopAir(call?.topAiringAnimes);
+    setAnimeOfWeek(call?.top10Animes?.week);
   };
 
   const [movie, setmovie] = useState();
-  const Movies = async (page) => {
-    fetchData(Moviesfetch, page, setmovie);
-    console.log("Working ");
+  const movieFetch = async (page) => {
+    const call = await Movies(page);
+    setmovie(call?.animes);
+  };
+
+  const [action, setaction] = useState();
+  const Action = async (genra, page) => {
+    GenraFetchingFunc(genra, page, setaction);
   };
 
   return (
@@ -99,38 +103,38 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.all_anime_list_container}>
             <View>
               <GenraTitleBlock
-                GenraName={"Popular Anime"}
+                GenraName={"Recent Anime"}
                 navigation={navigation}
-                data={popular}
+                data={RecentEPdata}
               />
               <View style={{ width: "100%", minHeight: 200 }}>
-                <AnimeCard data={popular} />
+                <AnimeCard data={RecentEPdata} navigation={navigation} />
               </View>
             </View>
             <QuotesBlock />
             <View style={styles.cont_topmargin}>
               <GenraTitleBlock
-                GenraName={"Popular Movies"}
+                GenraName={"Top Airing"}
                 navigation={navigation}
                 data={movie}
               />
-              <AnimeCard data={movie} />
+              <AnimeCard data={topAir} navigation={navigation} />
             </View>
             <View style={styles.cont_topmargin}>
               <GenraTitleBlock
-                GenraName={"Romace Anime"}
+                GenraName={"Top Movies"}
                 navigation={navigation}
                 data={romace}
               />
-              <AnimeCard data={romace} />
+              <AnimeCard data={movie} navigation={navigation} />
             </View>
             <View style={styles.cont_topmargin}>
               <GenraTitleBlock
-                GenraName={"Sports Anime"}
+                GenraName={"Action Anime"}
                 navigation={navigation}
-                data={sports}
+                data={action}
               />
-              <AnimeCard data={sports} />
+              <AnimeCard data={action} navigation={navigation} />
             </View>
           </View>
         </ScrollView>
@@ -145,7 +149,7 @@ const styles = StyleSheet.create({
     marginStart: moderateScale(20),
   },
   cont_topmargin: {
-    marginTop: 22,
+    marginTop: 8,
   },
 });
 export default HomeScreen;
