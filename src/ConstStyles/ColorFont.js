@@ -19,12 +19,22 @@
 // };
 
 //TODO preset 2
+// export const Colors = {
+//   Main_Color: "#181a20",
+//   Secend_Color: "#8380B1",
+//   Text_Color: "#eef0f2",
+//   Linear1: "rgba(24, 26, 32, 0.4)",
+//   Top_Btn_Color: "#07c34a",
+//   Linear2: "rgba(24, 26, 32, 1)",
+//   Bottom_Bar_Passive: "#939393",
+// };
+
 export const Colors = {
-  Main_Color: "#181a20",
+  Main_Color: "#151c22",
   Secend_Color: "#8380B1",
   Text_Color: "#eef0f2",
   Linear1: "rgba(24, 26, 32, 0.4)",
-  Top_Btn_Color: "#07c34a",
+  Top_Btn_Color: "#ff0039",
   Linear2: "rgba(24, 26, 32, 1)",
   Bottom_Bar_Passive: "#939393",
 };

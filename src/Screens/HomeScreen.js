@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "../ConstStyles/ColorFont";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,7 +17,10 @@ import {
   GenraFetch,
 } from "../Api/apicall";
 import QuotesBlock from "../components/HomeScreen/QuotesBlock";
+import { Fontisto } from "@expo/vector-icons";
+import HomeScreen_Skeleton from "../components/Loading/Skeletons/HomeScreen_Skeleton";
 
+const height = Dimensions.get("window").height;
 const HomeScreen = ({ navigation }) => {
   const [trending, settrending] = useState();
 
@@ -25,34 +28,9 @@ const HomeScreen = ({ navigation }) => {
     fetchdata();
     movieFetch(1);
     Action("Action", 1);
-    // if (!trending) {
-    //   trendingdata(1);
-    // }
-    // if (!popular) {
-    //   PopularFetch(1);
-    // }
-    // if (!RecentEPdata) {
-    //   RecentEPS(1);
-    // }
-    // if (!movie) {
-    //   Movies(1);
-    // }
-    // if (!sports) {
-    //   sportscall("Sports", 1);
-    // }
-    // if (!romace) {
-    //   romacecall("Romance", 1);
-    // }
   }, []);
 
-  const fetchData = async (functions, page, setData) => {
-    try {
-      const data = await functions({ page });
-      setData(data);
-    } catch (e) {
-      console.log("Error", e);
-    }
-  };
+  const [TopLoading, setToploading] = useState(true);
 
   const GenraFetchingFunc = async (genra, page, setData) => {
     try {
@@ -65,32 +43,31 @@ const HomeScreen = ({ navigation }) => {
 
   const [sports, setsports] = useState();
   const [romace, Setromace] = useState();
-  // const romacecall = async (genra, page) => {
-  //   GenraFetchingFunc(genra, page, Setromace);
-  // };
-
   const [popular, setpopular] = useState();
   const [RecentEPdata, setRecentEPdata] = useState();
-  const [topAir, setTopAir] = useState();
+  const [topAir, setTopAir] = useState(true);
 
-  const [animeOfWeek, setAnimeOfWeek] = useState();
   const fetchdata = async () => {
     const call = await HomepageFetch();
     settrending(call?.trendingAnimes);
     setRecentEPdata(call?.latestEpisodeAnimes);
     setTopAir(call?.topAiringAnimes);
-    setAnimeOfWeek(call?.top10Animes?.week);
+    setToploading(false);
   };
 
   const [movie, setmovie] = useState();
+  const [mo_loading, setmo_loading] = useState(true);
   const movieFetch = async (page) => {
     const call = await Movies(page);
     setmovie(call?.animes);
+    setmo_loading(false);
   };
 
   const [action, setaction] = useState();
+  const [ac_loading, setac_loading] = useState(true);
   const Action = async (genra, page) => {
     GenraFetchingFunc(genra, page, setaction);
+    setac_loading(false);
   };
 
   return (
@@ -99,6 +76,12 @@ const HomeScreen = ({ navigation }) => {
         <ScrollView>
           {/* //TODO Hero Banner From the Component */}
           <TopBanner data={trending} />
+          {/* <Fontisto
+            name="bell-alt"
+            size={moderateScale(26)}
+            color={Colors.Top_Btn_Color}
+            style={{ position: "absolute", right: 20, top: 20 }}
+          /> */}
           {/* //TODO this is a aall anime section  */}
           <View style={styles.all_anime_list_container}>
             <View>
@@ -107,8 +90,13 @@ const HomeScreen = ({ navigation }) => {
                 navigation={navigation}
                 data={RecentEPdata}
               />
+
               <View style={{ width: "100%", minHeight: 200 }}>
-                <AnimeCard data={RecentEPdata} navigation={navigation} />
+                {TopLoading ? (
+                  <HomeScreen_Skeleton />
+                ) : (
+                  <AnimeCard data={RecentEPdata} navigation={navigation} />
+                )}
               </View>
             </View>
             <QuotesBlock />
@@ -118,7 +106,11 @@ const HomeScreen = ({ navigation }) => {
                 navigation={navigation}
                 data={movie}
               />
-              <AnimeCard data={topAir} navigation={navigation} />
+              {TopLoading ? (
+                <HomeScreen_Skeleton />
+              ) : (
+                <AnimeCard data={topAir} navigation={navigation} />
+              )}
             </View>
             <View style={styles.cont_topmargin}>
               <GenraTitleBlock
@@ -126,7 +118,11 @@ const HomeScreen = ({ navigation }) => {
                 navigation={navigation}
                 data={romace}
               />
-              <AnimeCard data={movie} navigation={navigation} />
+              {mo_loading ? (
+                <HomeScreen_Skeleton />
+              ) : (
+                <AnimeCard data={movie} navigation={navigation} />
+              )}
             </View>
             <View style={styles.cont_topmargin}>
               <GenraTitleBlock
@@ -134,7 +130,11 @@ const HomeScreen = ({ navigation }) => {
                 navigation={navigation}
                 data={action}
               />
-              <AnimeCard data={action} navigation={navigation} />
+              {ac_loading ? (
+                <HomeScreen_Skeleton />
+              ) : (
+                <AnimeCard data={action} navigation={navigation} />
+              )}
             </View>
           </View>
         </ScrollView>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginStart: moderateScale(20),
   },
   cont_topmargin: {
-    marginTop: 8,
+    marginTop: height * 0.02,
   },
 });
 export default HomeScreen;

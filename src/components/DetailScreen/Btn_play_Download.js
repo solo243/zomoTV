@@ -1,17 +1,25 @@
-import { View, Text, Dimensions, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { Colors } from "../../ConstStyles/ColorFont";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 const height = Dimensions.get("window").height;
-const Btn_play_Download = () => {
+const Btn_play_Download = ({ navigation, id }) => {
   return (
     <View style={styles.container}>
-      <View style={[styles.btn, { backgroundColor: Colors.Top_Btn_Color }]}>
+      <TouchableOpacity
+        style={[styles.btn, { backgroundColor: Colors.Top_Btn_Color }]}
+      >
         <Ionicons name="play" size={height * 0.028} color="white" />
         <Text style={styles.fonts}>Play</Text>
-      </View>
+      </TouchableOpacity>
       <View
         style={[
           styles.btn,

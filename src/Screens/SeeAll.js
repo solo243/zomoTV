@@ -13,12 +13,11 @@ import { Colors } from "../ConstStyles/ColorFont";
 import { moderateScale } from "react-native-size-matters";
 import { FlashList } from "@shopify/flash-list";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Popular } from "../Api/apicall";
+import { HomepageFetch, Movies, Moviesfetch, Popular } from "../Api/apicall";
 import { AntDesign } from "@expo/vector-icons";
-
+import { Loadingscreen } from "../components/Loading/Loadingscreen";
 import NextButtons, { handlepress } from "../components/SeeAll/NextButtons";
 import Topbar from "../components/SeeAll/Topbar";
-import { GenraFetchingFunc, fetchData } from "../../dataFetching";
 import { TrendingAnime } from "../Api/apicall";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -26,50 +25,57 @@ const SeeAll = ({ navigation, route }) => {
   const rt = route.params;
   // const data = rt?.data;
   const title = rt?.title;
+  console.log(rt);
+  // useEffect(() => {
+  //   {
+  //     isForTreding
+  //       ? fetchData(TrendingAnime, 1, setdata) && setloading(false)
+  //       : GenraFetchingFunc("Romance", 1, setdata) && setloading(false);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    {
-      isForTreding
-        ? fetchData(TrendingAnime, 1, setdata) && setloading(false)
-        : GenraFetchingFunc("Romance", 1, setdata) && setloading(false);
-    }
-  }, []);
-
-  const [currentpage, setcurrentpage] = useState(1);
-  const [data, setdata] = useState();
-  const [loading, setloading] = useState(true);
-  const [isForTreding, SetForTrending] = useState(false);
+  // const [data, setdata] = useState([]);
+  // const [loading, setloading] = useState(true);
+  // const [isForTreding, SetForTrending] = useState(false);
 
   const NextButton = () => {
     setloading(true);
     const nextpage = Math.max(currentpage + 1);
     console.log(nextpage);
-    {
-      isForTreding
-        ? fetchData(TrendingAnime, nextpage, setdata)
-        : GenraFetchingFunc("Romance", nextpage, setdata);
-    }
+   
     setcurrentpage(nextpage);
     setloading(false);
   };
 
-  const PrevButton = () => {
-    setloading(true);
-    const prevpage = Math.max(currentpage - 1, 1);
-    {
-      isForTreding
-        ? fetchData(TrendingAnime, prevpage, setdata)
-        : GenraFetchingFunc("Romance", prevpage, setdata);
-    }
-    setcurrentpage(prevpage);
+  // const PrevButton = () => {
+  //   setloading(true);
+  //   const prevpage = Math.max(currentpage - 1, 1);
+  //   {
+  //     isForTreding
+  //       ? fetchData(TrendingAnime, prevpage, setdata)
+  //       : GenraFetchingFunc("Romance", prevpage, setdata);
+  //   }
+  //   setcurrentpage(prevpage);
+  //   setloading(false);
+  // };
+
+  useEffect(() => {
+    FetchMovies(currentpage);
+  }, [currentpage]);
+
+  const [loading, setloading] = useState(true);
+  const [data, setdata] = useState([]);
+  const [currentpage, setcurrentpage] = useState(1);
+  const FetchMovies = async (page) => {
+    const call = await Movies(page);
+    setdata(call?.animes);
+    console.log(call.animes);
     setloading(false);
   };
 
-  const Truehai = () => {
-    return (
-      <View style={{ height: 100, width: 100, backgroundColor: "red" }}></View>
-    );
-  };
+  if (loading) {
+    return <Loadingscreen />;
+  }
 
   const Flatrender = ({ item }) => {
     return (
@@ -77,14 +83,14 @@ const SeeAll = ({ navigation, route }) => {
         <View style={styles.newflatlist_cont}>
           <Image
             // source={require("./ph.jpg")}
-            source={{ uri: item.image }}
+            source={{ uri: item.poster }}
             style={{ height: "80%", width: "100%", borderRadius: 10 }}
           />
           <Text numberOfLines={1} style={styles.title}>
-            {item.title?.english ?? "NA"}
+            {item.name ?? "NA"}
           </Text>
           <Text style={{ alignSelf: "center", color: "grey" }}>
-            {item.releaseDate ?? "NA"} - Rating - {item.rating}
+            {item.type ?? "NA"} - Rating - {item.rating ?? "13+"}
           </Text>
         </View>
       </TouchableOpacity>
@@ -96,24 +102,20 @@ const SeeAll = ({ navigation, route }) => {
       <Topbar navigation={navigation} title={title} />
       <ScrollView style={{ backgroundColor: Colors.Main_Color }}>
         <View style={styles.container}>
-          {loading ? (
-            <Truehai />
-          ) : (
-            <View style={styles.parent_flatlist_container}>
-              <FlashList
-                numColumns={2}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{
-                  flexGrow: 1,
-                }}
-                data={data ?? [1, 2, 3, 4, 5, 6, 7, 8]}
-                // data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                renderItem={Flatrender}
-                estimatedItemSize={20}
-                key={data?.id}
-              />
-            </View>
-          )}
+          <View style={styles.parent_flatlist_container}>
+            <FlashList
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                flexGrow: 1,
+              }}
+              data={data ?? [1, 2, 3, 4, 5, 6, 7, 8]}
+              // data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+              renderItem={Flatrender}
+              estimatedItemSize={20}
+              // key={data?.id}
+            />
+          </View>
         </View>
         <View style={styles.containerr}>
           {currentpage == 1 ? (

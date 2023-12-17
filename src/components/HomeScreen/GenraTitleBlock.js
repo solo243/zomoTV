@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -9,7 +15,9 @@ const GenraTitleBlock = ({ GenraName, navigation, data }) => {
     <View style={styles.container}>
       <Text style={styles.Fonts}>{GenraName}</Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Seeall", { data: data ,title: GenraName})}
+        onPress={() =>
+          navigation.navigate("Seeall", { data: data, title: GenraName })
+        }
       >
         <Text style={styles.see_all}>See all</Text>
       </TouchableOpacity>
@@ -25,7 +33,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   Fonts: {
-    fontSize: moderateScale(21),
+    // fontSize: width * 0.05,
+    fontSize: RFValue(18),
     color: Colors.Text_Color,
     fontWeight: "600",
   },

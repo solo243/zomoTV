@@ -31,7 +31,7 @@ const AnimeCard = ({ data, navigation }) => {
             {item.name ?? "NA"}
           </Text>
           <Text style={styles.Radate_Rating}>
-            {item.type ?? "NA"} - Rating {item.rating ?? "NA"}
+            {item.type ?? "TV"} - Rating - {item.rating ?? "13+"}
           </Text>
         </View>
       </View>
@@ -58,12 +58,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   PosterImage: {
-    // height: moderateScale(210),
     height: height * 0.275,
     maxWidth: 200,
     maxHeight: 300,
     marginRight: 15,
-    marginTop: 20,
+    marginTop: 12,
     backgroundColor: "grey",
     borderRadius: 9,
     // width: moderateScale(140),
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
     maxWidth: 140,
     color: Colors.Text_Color,
     alignSelf: "center",
-    fontSize: RFValue(11),
+    fontSize: RFValue(13),
   },
   Radate_Rating: {
     color: "grey",

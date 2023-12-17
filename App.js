@@ -13,126 +13,135 @@ import { Colors } from "./src/ConstStyles/ColorFont";
 import { moderateScale } from "react-native-size-matters";
 import { StatusBar } from "react-native";
 import { BlurView } from "expo-blur";
-import { StyleSheet } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { StyleSheet, View } from "react-native";
 import SeeAll from "./src/Screens/SeeAll";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Easing } from "react-native";
 import DetailScreen from "./src/Screens/DetailScreen";
-// const Stack = createStackNavigator();
+import Stream_Ep from "./src/Screens/Stream_Ep";
+
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
     // <StatusBar/>
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
+    <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
 
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          backgroundColor: Colors.Main_Color,
-          elevation: 0,
-          borderTopWidth: 0,
-          height: moderateScale(57),
-        },
-        tabBarBackground: () => (
-          <BlurView
-            intensity={80}
-            style={{
-              // ...StyleSheet.absoluteFillObject,
-              overflow: "hidden",
-              background: "transparent",
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-            }}
-          />
-        ),
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({ focused }) =>
-            focused ? (
-              <Ionicons
-                name="home"
-                size={moderateScale(24)}
-                color={Colors.Top_Btn_Color}
-              />
-            ) : (
-              <Ionicons
-                name="home-outline"
-                size={moderateScale(24)}
-                color={Colors.Bottom_Bar_Passive}
-              />
-            ),
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            backgroundColor: Colors.Main_Color,
+            elevation: 0,
+            // backgroundColor: "red",
+            borderTopWidth: 0,
+            height: moderateScale(57),
+            maxHeight: 150,
+            // width: "100%",
+            width: "97%",
+            maxWidth: 700,
+            // alignContent: "center",
+            alignSelf: "center",
+          },
+          tabBarBackground: () => (
+            <BlurView
+              intensity={80}
+              style={{
+                // ...StyleSheet.absoluteFillObject,
+                overflow: "hidden",
+                background: Colors.Main_Color,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}
+            />
+          ),
         }}
-      />
-      <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          tabBarIcon: ({ focused }) =>
-            focused ? (
-              <FontAwesome
-                name="search"
-                size={moderateScale(24)}
-                color={Colors.Top_Btn_Color}
-              />
-            ) : (
-              <Feather
-                name="search"
-                size={moderateScale(24)}
-                color={Colors.Bottom_Bar_Passive}
-              />
-            ),
-        }}
-      />
-      <Tab.Screen
-        name="Save"
-        component={SaveScreen}
-        options={{
-          tabBarIcon: ({ focused }) =>
-            focused ? (
-              <Ionicons
-                name="bookmarks"
-                size={moderateScale(22)}
-                color={Colors.Top_Btn_Color}
-              />
-            ) : (
-              <Ionicons
-                name="bookmarks-outline"
-                size={moderateScale(22)}
-                color={Colors.Bottom_Bar_Passive}
-              />
-            ),
-        }}
-      />
-      <Tab.Screen
-        name="Me"
-        component={Account}
-        options={{
-          tabBarIcon: ({ focused }) =>
-            focused ? (
-              <MaterialCommunityIcons
-                name="account-cowboy-hat"
-                size={moderateScale(24)}
-                color={Colors.Top_Btn_Color}
-              />
-            ) : (
-              <MaterialCommunityIcons
-                name="account-cowboy-hat-outline"
-                size={moderateScale(24)}
-                color={Colors.Bottom_Bar_Passive}
-              />
-            ),
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <Ionicons
+                  name="home"
+                  size={moderateScale(24)}
+                  color={Colors.Top_Btn_Color}
+                />
+              ) : (
+                <Ionicons
+                  name="home-outline"
+                  size={moderateScale(24)}
+                  color={Colors.Bottom_Bar_Passive}
+                />
+              ),
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <FontAwesome
+                  name="search"
+                  size={moderateScale(24)}
+                  color={Colors.Top_Btn_Color}
+                />
+              ) : (
+                <Feather
+                  name="search"
+                  size={moderateScale(24)}
+                  color={Colors.Bottom_Bar_Passive}
+                />
+              ),
+          }}
+        />
+        <Tab.Screen
+          name="Save"
+          component={SaveScreen}
+          options={{
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <Ionicons
+                  name="bookmarks"
+                  size={moderateScale(22)}
+                  color={Colors.Top_Btn_Color}
+                />
+              ) : (
+                <Ionicons
+                  name="bookmarks-outline"
+                  size={moderateScale(22)}
+                  color={Colors.Bottom_Bar_Passive}
+                />
+              ),
+          }}
+        />
+        <Tab.Screen
+          name="Me"
+          component={Account}
+          options={{
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <MaterialCommunityIcons
+                  name="account-cowboy-hat"
+                  size={moderateScale(24)}
+                  color={Colors.Top_Btn_Color}
+                />
+              ) : (
+                <MaterialCommunityIcons
+                  name="account-cowboy-hat-outline"
+                  size={moderateScale(24)}
+                  color={Colors.Bottom_Bar_Passive}
+                />
+              ),
+          }}
+        />
+      </Tab.Navigator>
+    </View>
   );
 };
 
@@ -182,6 +191,7 @@ const StackScreens = () => {
         // }}
       />
       <Stack.Screen name="Detail" component={DetailScreen} />
+      <Stack.Screen name="Stream" component={Stream_Ep} />
     </Stack.Navigator>
   );
 };

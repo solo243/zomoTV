@@ -4,6 +4,7 @@ import {
   TextInput,
   FlatList,
   Image,
+  TouchableOpacity,
   ScrollView,
   StyleSheet,
   Dimensions,
@@ -19,7 +20,7 @@ import _ from "lodash";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
   const [SearchQuerys, SetsearchQuery] = useState();
   const [data, setdata] = useState([]);
 
@@ -70,15 +71,19 @@ const SearchScreen = () => {
           <View style={styles.result_container}>
             {data ? (
               data.map((item) => (
-                <View>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Detail", { id: item.id })}
+                >
                   <Image source={{ uri: item.poster }} style={styles.image} />
                   <View style={styles.title_container}>
-                    <Text style={styles.title}>{item.name}</Text>
+                    <Text style={styles.title} numberOfLines={1}>
+                      {item.name}
+                    </Text>
                     <Text style={styles.rating}>
                       {item.type ?? "NA"} - Rating - {item.rating ?? "NA"}
                     </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
               ))
             ) : (
               <View></View>
@@ -131,14 +136,18 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   title_container: {
-    height: height * 0.02,
+    height: height * 0.03,
     width: width * 0.4,
     maxHeight: 380,
     borderRadius: 10,
     maxWidth: 250,
     margin: 10,
     marginBottom: "14%",
-    marginTop: "-1%",
+    marginTop: "0%",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    // backgroundColor: "red",
   },
   title: {
     color: "white",

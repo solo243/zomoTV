@@ -15,11 +15,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../ConstStyles/ColorFont";
 import React from "react";
-
 const width = Dimensions.get("screen").width;
 const TopBanner = ({ data }) => {
-
-
   return (
     <FlatList
       pagingEnabled
@@ -34,6 +31,7 @@ const TopBanner = ({ data }) => {
             }}
             style={styles.bannerImage}
           />
+
           <LinearGradient
             colors={["transparent", Colors.Linear1, Colors.Linear2]}
             style={styles.linearstyle}
@@ -49,6 +47,21 @@ const TopBanner = ({ data }) => {
                 <Ionicons name="play" size={moderateScale(15)} color="white" />
                 <Text style={styles.btnFont}>Play</Text>
               </TouchableOpacity>
+              {/* <TouchableOpacity
+                style={{
+                  justifyContent: "center",
+                  gap: 20,
+                  flexDirection: "row",
+                  backgroundColor: Colors.Top_Btn_Color,
+                  borderRadius: 10,
+                  width: width * 0.33,
+                  alignItems: "center",
+                  // marginTop: 10,
+                }}
+              >
+                <Text style={styles.btnFont}>Play</Text>
+                <Ionicons name="play" size={moderateScale(15)} color="white" />
+              </TouchableOpacity> */}
               <TouchableOpacity style={styles.playBtn}>
                 <MaterialCommunityIcons
                   name="plus"
