@@ -42,7 +42,7 @@ const SeeAll = ({ navigation, route }) => {
     setloading(true);
     const nextpage = Math.max(currentpage + 1);
     console.log(nextpage);
-   
+
     setcurrentpage(nextpage);
     setloading(false);
   };
@@ -63,12 +63,12 @@ const SeeAll = ({ navigation, route }) => {
     FetchMovies(currentpage);
   }, [currentpage]);
 
-  const [loading, setloading] = useState(true);
+  const [loading, setloading] = useState(false);
   const [data, setdata] = useState([]);
   const [currentpage, setcurrentpage] = useState(1);
   const FetchMovies = async (page) => {
     const call = await Movies(page);
-    setdata(call?.animes);
+    setdata(call?.animes?.data);
     console.log(call.animes);
     setloading(false);
   };
@@ -97,9 +97,10 @@ const SeeAll = ({ navigation, route }) => {
     );
   };
 
+  // const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Topbar navigation={navigation} title={title} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
+      {/* <Topbar navigation={navigation} title={title} />
       <ScrollView style={{ backgroundColor: Colors.Main_Color }}>
         <View style={styles.container}>
           <View style={styles.parent_flatlist_container}>
@@ -116,6 +117,55 @@ const SeeAll = ({ navigation, route }) => {
               // key={data?.id}
             />
           </View>
+        </View>
+        <View style={styles.containerr}>
+          {currentpage == 1 ? (
+            console.log("")
+          ) : (
+            <TouchableOpacity onPress={() => PrevButton()}>
+              <View style={styles.btn}>
+                <AntDesign name="arrowleft" size={24} color="white" />
+                <Text style={styles.btn_text}>Prev</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity onPress={() => NextButton()}>
+            <View style={styles.btn}>
+              <Text style={styles.btn_text}>Next</Text>
+              <AntDesign name="arrowright" size={24} color="white" />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView> */}
+      <Topbar navigation={navigation} title={title} />
+      <ScrollView>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: Colors.Main_Color,
+            flexDirection: "row",
+            alignItems: "center",
+
+            justifyContent: "center",
+            gap: 15,
+            flexWrap: "wrap",
+          }}
+        >
+          {data.map((item) => (
+            <View style={styles.newflatlist_cont} key={item.id}>
+              <Image
+                // source={require("./ph.jpg")}
+                source={{ uri: item.poster }}
+                style={{ height: "80%", width: "100%", borderRadius: 10 }}
+              />
+              <Text numberOfLines={1} style={styles.title}>
+                {item.name ?? "NA"}
+              </Text>
+              <Text style={{ alignSelf: "center", color: "grey" }}>
+                {item.type ?? "NA"} - Rating - {item.rating ?? "13+"}
+              </Text>
+            </View>
+          ))}
         </View>
         <View style={styles.containerr}>
           {currentpage == 1 ? (
@@ -164,6 +214,9 @@ const styles = StyleSheet.create({
     width: moderateScale(150),
     margin: 10,
     marginTop: 5,
+
+    // flex: 1,
+    // backgroundColor: "red",
   },
   parent_flatlist_container: {
     width: "90%",

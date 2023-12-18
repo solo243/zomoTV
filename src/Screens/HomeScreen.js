@@ -16,13 +16,14 @@ import {
   Movies,
   GenraFetch,
 } from "../Api/apicall";
+
 import QuotesBlock from "../components/HomeScreen/QuotesBlock";
 import { Fontisto } from "@expo/vector-icons";
 import HomeScreen_Skeleton from "../components/Loading/Skeletons/HomeScreen_Skeleton";
 
 const height = Dimensions.get("window").height;
 const HomeScreen = ({ navigation }) => {
-  const [trending, settrending] = useState();
+  const [trending, settrending] = useState([]);
 
   useEffect(() => {
     fetchdata();
@@ -42,9 +43,9 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const [sports, setsports] = useState();
-  const [romace, Setromace] = useState();
+  const [romace, Setromace] = useState([]);
   const [popular, setpopular] = useState();
-  const [RecentEPdata, setRecentEPdata] = useState();
+  const [RecentEPdata, setRecentEPdata] = useState([]);
   const [topAir, setTopAir] = useState(true);
 
   const fetchdata = async () => {
@@ -55,7 +56,7 @@ const HomeScreen = ({ navigation }) => {
     setToploading(false);
   };
 
-  const [movie, setmovie] = useState();
+  const [movie, setmovie] = useState([]);
   const [mo_loading, setmo_loading] = useState(true);
   const movieFetch = async (page) => {
     const call = await Movies(page);
@@ -76,12 +77,7 @@ const HomeScreen = ({ navigation }) => {
         <ScrollView>
           {/* //TODO Hero Banner From the Component */}
           <TopBanner data={trending} />
-          {/* <Fontisto
-            name="bell-alt"
-            size={moderateScale(26)}
-            color={Colors.Top_Btn_Color}
-            style={{ position: "absolute", right: 20, top: 20 }}
-          /> */}
+
           {/* //TODO this is a aall anime section  */}
           <View style={styles.all_anime_list_container}>
             <View>

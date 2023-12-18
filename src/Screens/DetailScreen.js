@@ -20,16 +20,26 @@ import { Entypo } from "@expo/vector-icons";
 import Btn_play_Download from "../components/DetailScreen/Btn_play_Download";
 import { FontAwesome5 } from "@expo/vector-icons";
 import TextTicker from "react-native-text-ticker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FontAwesome } from "@expo/vector-icons";
 import { Loadingscreen } from "../components/Loading/Loadingscreen";
 import Slider from "../components/DetailScreen/Slider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { GetAllaSave, removeData, saveData } from "../hooks/CheckSave";
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
+
 const DetailScreen = ({ navigation, route }) => {
-  const selected = route.params.id;
+  const rt = route.params.item;
+  const selected = rt.id;
+  const poster = rt.poster;
+  // console.log(rt.poster);
   const [loading, setloading] = useState(true);
+  const [isSaved, setisSaved] = useState(false);
+
   useEffect(() => {
     FetchingData(selected);
+    GetAllaSave();
   }, []);
 
   const [data, setData] = useState();
@@ -43,6 +53,34 @@ const DetailScreen = ({ navigation, route }) => {
       // console.log(call);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const dataObject = {
+    id: selected,
+    img: poster,
+  };
+
+  const togglesave = () => {
+    setisSaved(!isSaved);
+    isSaved ? removeData(selected) : saveData(dataObject);
+  };
+
+  const GetAllaSave = async () => {
+    try {
+      const newgg = await AsyncStorage.getItem("idforsave");
+      if (newgg) {
+        // setFf(JSON.parse(newgg));
+        const dataArray = JSON.parse(newgg);
+        const isSaved = dataArray.some((item) => item.id === selected);
+        console.log(dataArray);
+        setisSaved(isSaved);
+      } else {
+        console.log("No saved IDs found.");
+        setisSaved(false);
+      }
+    } catch (error) {
+      console.log("Error retrieving data:", error);
     }
   };
 
@@ -83,7 +121,13 @@ const DetailScreen = ({ navigation, route }) => {
 
           {/* TODO: This is a TITLE Container  */}
           <View style={styles.container}>
-            <View style={{ justifyContent: "space-between", marginTop: 17 }}>
+            <View
+              style={{
+                justifyContent: "space-between",
+                marginTop: 17,
+                flexDirection: "row",
+              }}
+            >
               <View style={{ width: "75%" }}>
                 <TextTicker
                   style={styles.title}
@@ -97,7 +141,15 @@ const DetailScreen = ({ navigation, route }) => {
                 </TextTicker>
               </View>
 
-              <View></View>
+              <View>
+                <TouchableOpacity onPress={togglesave}>
+                  {isSaved ? (
+                    <FontAwesome name="bookmark" size={30} color="white" />
+                  ) : (
+                    <FontAwesome name="bookmark-o" size={30} color="white" />
+                  )}
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* TODO: Description container  */}

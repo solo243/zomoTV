@@ -16,9 +16,7 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const AnimeCard = ({ data, navigation }) => {
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("Detail", { id: item.id })}
-    >
+    <TouchableOpacity onPress={() => navigation.navigate("Detail", {item: item })}>
       <View>
         <Image
           source={{
