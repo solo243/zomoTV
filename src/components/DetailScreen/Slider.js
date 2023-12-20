@@ -11,7 +11,7 @@ import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 const height = Dimensions.get("screen").height;
 const width = Dimensions.get("screen").width;
-const Slider = ({ data ,navigation}) => {
+const Slider = ({ data, navigation }) => {
   return (
     <FlatList
       showsHorizontalScrollIndicator={false}
@@ -19,12 +19,12 @@ const Slider = ({ data ,navigation}) => {
       showsVerticalScrollIndicator={false}
       data={data}
       renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate("Detail", {id: item.id})}>
-          <Image source={{ uri: item.poster }} style={styles.image} />
-          <Text numberOfLines={1} style={styles.text}>
-            {item.name}
-          </Text>
-        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Detail", {item: item.id})}>
+        <Image source={{ uri: item.poster }} style={styles.image} />
+        <Text numberOfLines={1} style={styles.text}>
+          {item.name}
+        </Text>
+      </TouchableOpacity>
       )}
       key={data?.id}
     />

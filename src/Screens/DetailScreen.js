@@ -26,12 +26,14 @@ import { Loadingscreen } from "../components/Loading/Loadingscreen";
 import Slider from "../components/DetailScreen/Slider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { GetAllaSave, removeData, saveData } from "../hooks/CheckSave";
+import { FlashList } from "@shopify/flash-list";
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const DetailScreen = ({ navigation, route }) => {
   const rt = route.params.item;
   const selected = rt.id;
+console.log(route)
   const poster = rt.poster;
   // console.log(rt.poster);
   const [loading, setloading] = useState(true);
@@ -46,13 +48,15 @@ const DetailScreen = ({ navigation, route }) => {
   const [season, setseason] = useState([]);
   const FetchingData = async (selected) => {
     try {
+      setloading(true);
       const call = await Details(selected);
       setData(call?.anime);
-      setloading(false);
       setseason(call);
-      // console.log(call);
+      console.log(call);
     } catch (e) {
       console.log(e);
+    } finally {
+      setloading(false);
     }
   };
 
@@ -88,6 +92,26 @@ const DetailScreen = ({ navigation, route }) => {
     return <Loadingscreen />;
   }
 
+  const Slider = ({ data, navigation }) => {
+    return (
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        // estimatedItemSize={100}
+        showsVerticalScrollIndicator={false}
+        data={data}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => FetchingData(item.id)}>
+            <Image source={{ uri: item.poster }} style={styles.image} />
+            <Text numberOfLines={1} style={styles.text}>
+              {item.name}
+            </Text>
+          </TouchableOpacity>
+        )}
+        key={data?.id}
+      />
+    );
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
@@ -166,10 +190,10 @@ const DetailScreen = ({ navigation, route }) => {
               numberOfLines={4}
               style={{ color: "white", fontSize: RFValue(10), marginTop: 10 }}
             >
-              {data?.info?.description}
+              {data?.info?.description ?? "NA"}
             </Text>
             {/* TODO: This are the play and doneload buttons  */}
-            <Btn_play_Download navigation={navigation} />
+            <Btn_play_Download navigation={navigation} id={selected} />
 
             {/* TODO: SEAson slider */}
             {season.seasons == 0 ? null : (
@@ -211,6 +235,25 @@ const styles = StyleSheet.create({
     fontSize: RFValue(17),
     marginTop: 22,
     marginBottom: 7,
+  },
+  image: {
+    width: width * 0.36,
+    backgroundColor: "grey",
+    margin: 10,
+    maxWidth: 200,
+    maxHeight: 300,
+    // height: 200,
+    height: height * 0.275,
+    borderRadius: 10,
+    flex: 1,
+    marginStart: 3,
+  },
+  text: {
+    color: "white",
+    fontSize: RFValue(12),
+    width: width * 0.3,
+    alignSelf: "center",
+    textAlign: "center",
   },
 });
 export default DetailScreen;

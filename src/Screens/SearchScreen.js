@@ -72,7 +72,7 @@ const SearchScreen = ({ navigation }) => {
             {data ? (
               data.map((item) => (
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("Detail", { id: item.id })}
+                  onPress={() => navigation.navigate("Detail", { item: item })}
                 >
                   <Image source={{ uri: item.poster }} style={styles.image} />
                   <View style={styles.title_container}>
