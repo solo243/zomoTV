@@ -9,14 +9,16 @@ import {
 } from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import { Colors } from "../../ConstStyles/ColorFont";
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { FlashList } from "@shopify/flash-list";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const AnimeCard = ({ data, navigation }) => {
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate("Detail", {item: item })}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Detail", { item: item })}
+    >
       <View>
         <Image
           source={{
@@ -79,6 +81,8 @@ const styles = StyleSheet.create({
     color: Colors.Text_Color,
     alignSelf: "center",
     fontSize: RFValue(13),
+    // fontSize: width*0.02
+    // fontSize: RFPercentage(10)
   },
   Radate_Rating: {
     color: "grey",

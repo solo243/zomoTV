@@ -76,7 +76,7 @@ const HomeScreen = ({ navigation }) => {
       <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
         <ScrollView>
           {/* //TODO Hero Banner From the Component */}
-          <TopBanner data={trending} />
+          <TopBanner data={trending} naviagtion={navigation} />
 
           {/* //TODO this is a aall anime section  */}
           <View style={styles.all_anime_list_container}>
@@ -84,7 +84,8 @@ const HomeScreen = ({ navigation }) => {
               <GenraTitleBlock
                 GenraName={"Recent Anime"}
                 navigation={navigation}
-                data={RecentEPdata}
+                data={"recently-updated"}
+                genra={false}
               />
 
               <View style={{ width: "100%", minHeight: 200 }}>
@@ -100,7 +101,8 @@ const HomeScreen = ({ navigation }) => {
               <GenraTitleBlock
                 GenraName={"Top Airing"}
                 navigation={navigation}
-                data={movie}
+                data={"top-airing"}
+                genra={false}
               />
               {TopLoading ? (
                 <HomeScreen_Skeleton />
@@ -112,7 +114,8 @@ const HomeScreen = ({ navigation }) => {
               <GenraTitleBlock
                 GenraName={"Top Movies"}
                 navigation={navigation}
-                data={romace}
+                data={"movie"}
+                genra={false}
               />
               {mo_loading ? (
                 <HomeScreen_Skeleton />
@@ -125,6 +128,7 @@ const HomeScreen = ({ navigation }) => {
                 GenraName={"Action Anime"}
                 navigation={navigation}
                 data={action}
+                genra={true}
               />
               {ac_loading ? (
                 <HomeScreen_Skeleton />
@@ -145,7 +149,7 @@ const styles = StyleSheet.create({
     marginStart: moderateScale(20),
   },
   cont_topmargin: {
-    marginTop: height * 0.02,
+    marginTop: moderateScale(17)
   },
 });
 export default HomeScreen;

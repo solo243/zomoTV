@@ -38,3 +38,13 @@ export const Colors = {
   Linear2: "rgba(24, 26, 32, 1)",
   Bottom_Bar_Passive: "#939393",
 };
+
+// export const Colors = {
+//   Main_Color: "white",
+//   Secend_Color: "#8380B1",
+//   Text_Color: "black",
+//   Linear1: "rgba(24, 26, 32, 0.4)",
+//   Top_Btn_Color: "green",
+//   Linear2: "rgba(24, 26, 32, 1)",
+//   Bottom_Bar_Passive: "#939393",
+// };

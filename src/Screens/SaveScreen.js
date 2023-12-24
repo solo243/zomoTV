@@ -23,6 +23,7 @@ const SaveScreen = ({ navigation }) => {
     GetAllaSave();
   }, []);
   const GetAllaSave = async () => {
+    // AsyncStorage.clear()
     const newgg = await AsyncStorage.getItem("idforsave");
     setData(newgg);
     console.log(data);
@@ -92,18 +93,18 @@ const SaveScreen = ({ navigation }) => {
                 // backgroundColor: "red",
               }}
             >
-              {/* <FlatList
-                contentContainerStyle={{
-                  // backgroundColor: 'pink',
-                  alignItems: "center",
-                }}
-                columnWrapperStyle={{
-                  justifyContent: "space-between",
-                  // backgroundColor: "blue",
-                  width: "90%",
-                  alignSelf: "center",
-                  justifyContent: "center",
-                }}
+              <FlatList
+                // contentContainerStyle={{
+                //   // backgroundColor: 'pink',
+                //   alignItems: "center",
+                // }}
+                // columnWrapperStyle={{
+                //   justifyContent: "space-between",
+                //   // backgroundColor: "blue",
+                //   width: "90%",
+                //   alignSelf: "center",
+                //   justifyContent: "center",
+                // }}
                 numColumns={2}
                 data={data ?? [1, 2, 3, 4]}
                 renderItem={({ item }) => (
@@ -115,8 +116,7 @@ const SaveScreen = ({ navigation }) => {
                     <Text>{item.id ?? "NA"}</Text>
                   </View>
                 )}
-              /> */}
-            
+              />
             </View>
           ) : (
             <Empty />

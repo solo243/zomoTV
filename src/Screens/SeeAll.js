@@ -1,184 +1,152 @@
 import {
   View,
   Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
   ScrollView,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Genra, HomepageFetch, Movies, GenraFetch } from "../Api/apicall";
 import { Colors } from "../ConstStyles/ColorFont";
 import { moderateScale } from "react-native-size-matters";
-import { FlashList } from "@shopify/flash-list";
 import { RFValue } from "react-native-responsive-fontsize";
-import { HomepageFetch, Movies, Moviesfetch, Popular } from "../Api/apicall";
+import { FlashList } from "@shopify/flash-list";
 import { AntDesign } from "@expo/vector-icons";
 import { Loadingscreen } from "../components/Loading/Loadingscreen";
-import NextButtons, { handlepress } from "../components/SeeAll/NextButtons";
-import Topbar from "../components/SeeAll/Topbar";
-import { TrendingAnime } from "../Api/apicall";
-const width = Dimensions.get("window").width;
+import { Octicons } from "@expo/vector-icons";
+
 const height = Dimensions.get("window").height;
+const width = Dimensions.get("window").width;
 const SeeAll = ({ navigation, route }) => {
-  const rt = route.params;
-  // const data = rt?.data;
-  const title = rt?.title;
-  console.log(rt);
-  // useEffect(() => {
-  //   {
-  //     isForTreding
-  //       ? fetchData(TrendingAnime, 1, setdata) && setloading(false)
-  //       : GenraFetchingFunc("Romance", 1, setdata) && setloading(false);
-  //   }
-  // }, []);
-
-  // const [data, setdata] = useState([]);
-  // const [loading, setloading] = useState(true);
-  // const [isForTreding, SetForTrending] = useState(false);
-
-  const NextButton = () => {
-    setloading(true);
-    const nextpage = Math.max(currentpage + 1);
-    console.log(nextpage);
-
-    setcurrentpage(nextpage);
-    setloading(false);
-  };
-
-  // const PrevButton = () => {
-  //   setloading(true);
-  //   const prevpage = Math.max(currentpage - 1, 1);
-  //   {
-  //     isForTreding
-  //       ? fetchData(TrendingAnime, prevpage, setdata)
-  //       : GenraFetchingFunc("Romance", prevpage, setdata);
-  //   }
-  //   setcurrentpage(prevpage);
-  //   setloading(false);
-  // };
+  const tt = route.params.data;
+  const title = route.params.gg;
+  const genra = route.params.genra;
+  const [cout, setcout] = useState(1);
+  // console.warn(tt);
 
   useEffect(() => {
-    FetchMovies(currentpage);
-  }, [currentpage]);
+    // fetchingdata(tt, cout);
+    // IsfromGenra(1);
+    {
+      genra ? IsfromGenra(cout) : fetchingdata(tt, cout);
+    }
+  }, [cout]);
 
-  const [loading, setloading] = useState(false);
+  const hadnlepress = () => {
+    setcout(cout + 1);
+  };
+
+  const PrevButton = () => {
+    setcout(cout - 1);
+  };
   const [data, setdata] = useState([]);
-  const [currentpage, setcurrentpage] = useState(1);
-  const FetchMovies = async (page) => {
-    const call = await Movies(page);
-    setdata(call?.animes?.data);
-    console.log(call.animes);
-    setloading(false);
+  const [loading, setloading] = useState(false);
+
+  const fetchingdata = async (type, page) => {
+    setloading(true);
+    try {
+      const call = await fetch(
+        `https://aniwatch-api-solo243.vercel.app/anime/${type}?page=${page}`
+      );
+      const convert = await call.json();
+      setdata(convert.animes);
+      setloading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const IsfromGenra = async (page) => {
+    setloading(true);
+
+    try {
+      const call = await GenraFetch("Action", page);
+      setdata(call.animes);
+      setloading(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   if (loading) {
-    return <Loadingscreen />;
+    return (
+      <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
+        <Loadingscreen />
+      </View>
+    );
   }
 
-  const Flatrender = ({ item }) => {
-    return (
-      <TouchableOpacity>
-        <View style={styles.newflatlist_cont}>
-          <Image
-            // source={require("./ph.jpg")}
-            source={{ uri: item.poster }}
-            style={{ height: "80%", width: "100%", borderRadius: 10 }}
-          />
-          <Text numberOfLines={1} style={styles.title}>
-            {item.name ?? "NA"}
-          </Text>
-          <Text style={{ alignSelf: "center", color: "grey" }}>
-            {item.type ?? "NA"} - Rating - {item.rating ?? "13+"}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  // const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
-      {/* <Topbar navigation={navigation} title={title} />
-      <ScrollView style={{ backgroundColor: Colors.Main_Color }}>
-        <View style={styles.container}>
-          <View style={styles.parent_flatlist_container}>
+    <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
+      <ScrollView>
+        <View>
+          <View style={styles.header_Container}>
+            <Text style={styles.header_Text}>{title}</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Search")}
+              style={styles.searchContainer}
+            >
+              <Octicons
+                name="search"
+                size={moderateScale(25)}
+                color={Colors.Top_Btn_Color}
+                style={{
+                  alignSelf: "center",
+                  marginStart: 20,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.Flatlist_container}>
             <FlashList
+              estimatedItemSize={80}
               numColumns={2}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{
-                flexGrow: 1,
+              data={data}
+              keyExtractor={(item) => item.id}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => {
+                return (
+                  <View style={styles.falt_Container}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("Detail", { item: item })
+                      }
+                    >
+                      <Image
+                        // source={require("./ph.jpg")}
+                        source={{ uri: item.poster }}
+                        style={styles.image}
+                      />
+                      <View style={styles.ratingBox}>
+                        <Text style={styles.ratingtext}>
+                          {item.rating ?? "13+"}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                );
               }}
-              data={data ?? [1, 2, 3, 4, 5, 6, 7, 8]}
-              // data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-              renderItem={Flatrender}
-              estimatedItemSize={20}
-              // key={data?.id}
             />
           </View>
         </View>
-        <View style={styles.containerr}>
-          {currentpage == 1 ? (
-            console.log("")
-          ) : (
-            <TouchableOpacity onPress={() => PrevButton()}>
-              <View style={styles.btn}>
-                <AntDesign name="arrowleft" size={24} color="white" />
-                <Text style={styles.btn_text}>Prev</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity onPress={() => NextButton()}>
-            <View style={styles.btn}>
-              <Text style={styles.btn_text}>Next</Text>
-              <AntDesign name="arrowright" size={24} color="white" />
-            </View>
-          </TouchableOpacity>
-        </View>
-      </ScrollView> */}
-      <Topbar navigation={navigation} title={title} />
-      <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: Colors.Main_Color,
-            flexDirection: "row",
-            alignItems: "center",
 
-            justifyContent: "center",
-            gap: 15,
-            flexWrap: "wrap",
-          }}
-        >
-          {data.map((item) => (
-            <View style={styles.newflatlist_cont} key={item.id}>
-              <Image
-                // source={require("./ph.jpg")}
-                source={{ uri: item.poster }}
-                style={{ height: "80%", width: "100%", borderRadius: 10 }}
-              />
-              <Text numberOfLines={1} style={styles.title}>
-                {item.name ?? "NA"}
-              </Text>
-              <Text style={{ alignSelf: "center", color: "grey" }}>
-                {item.type ?? "NA"} - Rating - {item.rating ?? "13+"}
-              </Text>
-            </View>
-          ))}
-        </View>
         <View style={styles.containerr}>
-          {currentpage == 1 ? (
+          {cout == 1 ? (
             console.log("")
           ) : (
-            <TouchableOpacity onPress={() => PrevButton()}>
+            <TouchableOpacity onPress={PrevButton}>
               <View style={styles.btn}>
                 <AntDesign name="arrowleft" size={24} color="white" />
                 <Text style={styles.btn_text}>Prev</Text>
               </View>
             </TouchableOpacity>
           )}
-          <TouchableOpacity onPress={() => NextButton()}>
+          <TouchableOpacity onPress={hadnlepress}>
             <View style={styles.btn}>
               <Text style={styles.btn_text}>Next</Text>
               <AntDesign name="arrowright" size={24} color="white" />
@@ -186,51 +154,46 @@ const SeeAll = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.Main_Color,
-    width: "100%",
-    alignSelf: "center",
-    display: "flex",
-    flex: 1,
-  },
-  flatlist_container: {
-    flex: 1,
-    display: "flex",
-    margin: 10,
-    height: moderateScale(200),
+  PosterImage: {
+    height: height * 0.275,
+    maxWidth: 200,
     maxHeight: 300,
-    width: "95%",
-    maxWidth: 500,
-    flexDirection: "row",
-    borderRadius: 10,
+    // marginRight: 15,
+    marginTop: 12,
+    backgroundColor: "grey",
+    borderRadius: 9,
+    // width: moderateScale(140),
+    width: width * 0.36,
   },
-  newflatlist_cont: {
-    height: moderateScale(290),
-    width: moderateScale(150),
-    margin: 10,
-    marginTop: 5,
-
-    // flex: 1,
-    // backgroundColor: "red",
-  },
-  parent_flatlist_container: {
-    width: "90%",
-    alignContent: "center",
-    justifyContent: "center",
-    flex: 1,
-    alignSelf: "center",
-  },
-  title: {
+  Tiltle_container: {
     marginTop: 10,
-    alignSelf: "center",
+    height: moderateScale(40),
+    width: moderateScale(140),
+    maxWidth: 200,
+    alignItems: "center",
+    maxHeight: 90,
+  },
+  titles: {
+    width: "75%",
+    fontSize: RFValue(12),
+    // backgroundColor: "pink",
     color: "white",
-    fontSize: RFValue(13.4),
+    alignSelf: "center",
     textAlign: "center",
+  },
+  Radate_Rating: {
+    color: "grey",
+    fontSize: RFValue(10),
+  },
+  btn_text: {
+    color: "white",
+    fontWeight: "500",
+    fontSize: 16,
   },
   containerr: {
     backgroundColor: Colors.Main_Color,
@@ -241,11 +204,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: "row",
   },
-  btn_text: {
-    color: "white",
-    fontWeight: "500",
-    fontSize: 16,
-  },
   btn: {
     height: height * 0.06,
     borderRadius: 10,
@@ -255,6 +213,69 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: width * 0.02,
     flexDirection: "row",
+  },
+
+  header_Container: {
+    height: moderateScale(60),
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+
+    // alignItems: "center",
+    // backgroundColor: "red",
+    marginBottom: moderateScale(6),
+  },
+  header_Text: {
+    fontSize: RFValue(20),
+    color: Colors.Text_Color,
+    marginStart: moderateScale(27),
+  },
+  Flatlist_container: {
+    width: "92%",
+    // backgroundColor: "red",
+    alignSelf: "center",
+    justifyContent: "space-between",
+  },
+  falt_Container: {
+    flex: 1,
+    height: moderateScale(250),
+    maxHeight: 300,
+    maxWidth: 400,
+    backgroundColor: "grey",
+    margin: 8,
+    flex: 1,
+    borderRadius: 10,
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    backgroundColor: "grey",
+    borderRadius: 10,
+  },
+  ratingBox: {
+    height: moderateScale(27),
+    borderCurve: "circular",
+    width: moderateScale(27),
+    borderRadius: 10,
+    top: 10,
+    left: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.Top_Btn_Color,
+    position: "absolute",
+  },
+  ratingtext: {
+    color: Colors.Text_Color,
+    fontWeight: "700",
+  },
+  searchContainer: {
+    height: moderateScale(40),
+    width: moderateScale(40),
+    alignItems: "center",
+    right: 30,
+    justifyContent: "center",
+    // backgroundColor: "red",
   },
 });
 

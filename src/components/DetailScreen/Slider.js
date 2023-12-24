@@ -18,13 +18,16 @@ const Slider = ({ data, navigation }) => {
       horizontal
       showsVerticalScrollIndicator={false}
       data={data}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate("Detail", {item: item.id})}>
-        <Image source={{ uri: item.poster }} style={styles.image} />
-        <Text numberOfLines={1} style={styles.text}>
-          {item.name}
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Detail", { item: item.id })}
+        >
+          <Image source={{ uri: item.poster }} style={styles.image} />
+          <Text numberOfLines={1} style={styles.text}>
+            {item.name}
+          </Text>
+        </TouchableOpacity>
       )}
       key={data?.id}
     />

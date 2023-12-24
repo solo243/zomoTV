@@ -10,13 +10,19 @@ import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Colors } from "../../ConstStyles/ColorFont";
 
-const GenraTitleBlock = ({ GenraName, navigation, data }) => {
+const width = Dimensions.get("screen").width;
+const height = Dimensions.get("screen").height;
+const GenraTitleBlock = ({ GenraName, navigation, data, genra }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.Fonts}>{GenraName}</Text>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("Seeall", { data: data, title: GenraName })
+          navigation.navigate("Seeall", {
+            data: data,
+            gg: GenraName,
+            genra: genra,
+          })
         }
       >
         <Text style={styles.see_all}>See all</Text>
@@ -35,6 +41,7 @@ const styles = StyleSheet.create({
   Fonts: {
     // fontSize: width * 0.05,
     fontSize: RFValue(18),
+    // fontSize: width*0.05,
     color: Colors.Text_Color,
     fontWeight: "600",
   },

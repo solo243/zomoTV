@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { Details } from "../Api/apicall";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale } from "react-native-size-matters";
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../ConstStyles/ColorFont";
 import { Entypo } from "@expo/vector-icons";
@@ -26,14 +26,14 @@ import { Loadingscreen } from "../components/Loading/Loadingscreen";
 import Slider from "../components/DetailScreen/Slider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { GetAllaSave, removeData, saveData } from "../hooks/CheckSave";
-import { FlashList } from "@shopify/flash-list";
+import { Octicons } from "@expo/vector-icons";
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const DetailScreen = ({ navigation, route }) => {
   const rt = route.params.item;
   const selected = rt.id;
-console.log(route)
+  console.log(route);
   const poster = rt.poster;
   // console.log(rt.poster);
   const [loading, setloading] = useState(true);
@@ -41,7 +41,7 @@ console.log(route)
 
   useEffect(() => {
     FetchingData(selected);
-    GetAllaSave();
+    // GetAllaSave(selected);
   }, []);
 
   const [data, setData] = useState();
@@ -49,6 +49,8 @@ console.log(route)
   const FetchingData = async (selected) => {
     try {
       setloading(true);
+      GetAllaSave(selected);
+
       const call = await Details(selected);
       setData(call?.anime);
       setseason(call);
@@ -70,13 +72,13 @@ console.log(route)
     isSaved ? removeData(selected) : saveData(dataObject);
   };
 
-  const GetAllaSave = async () => {
+  const GetAllaSave = async (id) => {
     try {
       const newgg = await AsyncStorage.getItem("idforsave");
       if (newgg) {
         // setFf(JSON.parse(newgg));
         const dataArray = JSON.parse(newgg);
-        const isSaved = dataArray.some((item) => item.id === selected);
+        const isSaved = dataArray.some((item) => item.id === id);
         console.log(dataArray);
         setisSaved(isSaved);
       } else {
@@ -92,7 +94,7 @@ console.log(route)
     return <Loadingscreen />;
   }
 
-  const Slider = ({ data, navigation }) => {
+  const Slider = ({ data }) => {
     return (
       <FlatList
         showsHorizontalScrollIndicator={false}
@@ -102,10 +104,20 @@ console.log(route)
         data={data}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => FetchingData(item.id)}>
-            <Image source={{ uri: item.poster }} style={styles.image} />
-            <Text numberOfLines={1} style={styles.text}>
-              {item.name}
-            </Text>
+            <Image
+              source={{
+                uri: item.poster,
+              }}
+              style={styles.PosterImage}
+            />
+            <View style={styles.Tiltle_container}>
+              <Text numberOfLines={1} style={styles.titles}>
+                {item.name ?? "NA"}
+              </Text>
+              <Text style={styles.Radate_Rating}>
+                {item.type ?? "TV"} - Rating - {item.rating ?? "13+"}
+              </Text>
+            </View>
           </TouchableOpacity>
         )}
         key={data?.id}
@@ -141,6 +153,29 @@ console.log(route)
                 color={Colors.Top_Btn_Color}
               />
             </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                height: height * 0.07,
+                maxHeight: 200,
+                alignItems: "center",
+                justifyContent: "center",
+                maxWidth: 200,
+                position: "absolute",
+                width: height * 0.07,
+                // backgroundColor: "red",
+                right: 0,
+              }}
+            >
+              <Octicons
+                name="search"
+                size={moderateScale(25)}
+                color={Colors.Top_Btn_Color}
+                style={{
+                  alignSelf: "center",
+                  marginEnd: 20,
+                }}
+              />
+            </TouchableOpacity>
           </View>
 
           {/* TODO: This is a TITLE Container  */}
@@ -153,7 +188,7 @@ console.log(route)
               }}
             >
               <View style={{ width: "75%" }}>
-                <TextTicker
+                {/* <TextTicker
                   style={styles.title}
                   duration={10000}
                   loop
@@ -161,6 +196,9 @@ console.log(route)
                   // repeatSpacer={50}
                   // marqueeDelay={1000}
                 >
+                  {data?.info?.name}
+                </TextTicker> */}
+                <TextTicker style={styles.title} duration={10000} loop>
                   {data?.info?.name}
                 </TextTicker>
               </View>
@@ -180,6 +218,7 @@ console.log(route)
             <Text
               style={{
                 fontSize: RFValue(14),
+                // fontSize: RFPercentage(2.1),
                 color: Colors.Top_Btn_Color,
                 marginTop: 15,
               }}
@@ -188,25 +227,33 @@ console.log(route)
             </Text>
             <Text
               numberOfLines={4}
-              style={{ color: "white", fontSize: RFValue(10), marginTop: 10 }}
+              style={{
+                color: "white",
+                fontSize: RFPercentage(1.4),
+                marginTop: 10,
+              }}
             >
               {data?.info?.description ?? "NA"}
             </Text>
             {/* TODO: This are the play and doneload buttons  */}
-            <Btn_play_Download navigation={navigation} id={selected} />
+            <Btn_play_Download
+              navigation={navigation}
+              id={selected}
+              img={data?.info?.poster}
+            />
 
             {/* TODO: SEAson slider */}
             {season.seasons == 0 ? null : (
               <View>
                 {/* TODO:Season silder  */}
                 <Text style={styles.EP_title}> Seasons</Text>
-                <Slider data={season?.seasons} navigation={navigation} />
+                <Slider data={season?.seasons} />
               </View>
             )}
             {season?.relatedAnimes == 0 ? null : (
               <View>
                 <Text style={styles.EP_title}>Related Animes</Text>
-                <Slider data={season?.relatedAnimes} navigation={navigation} />
+                <Slider data={season?.relatedAnimes} />
               </View>
             )}
             <View style={{ marginBottom: 40 }} />
@@ -223,11 +270,13 @@ const styles = StyleSheet.create({
     // backgroundColor: "blue",
     alignSelf: "center",
   },
-  title: {
+  titles: {
     width: "75%",
-    fontSize: RFValue(20),
+    fontSize: RFValue(12),
     // backgroundColor: "pink",
     color: "white",
+    alignSelf: "center",
+    textAlign: "center",
   },
   EP_title: {
     color: "white",
@@ -254,6 +303,37 @@ const styles = StyleSheet.create({
     width: width * 0.3,
     alignSelf: "center",
     textAlign: "center",
+  },
+  PosterImage: {
+    height: height * 0.275,
+    maxWidth: 200,
+    maxHeight: 300,
+    marginRight: 15,
+    marginTop: 12,
+    backgroundColor: "grey",
+    borderRadius: 9,
+    // width: moderateScale(140),
+    width: width * 0.36,
+  },
+  Tiltle_container: {
+    marginTop: 10,
+    height: moderateScale(40),
+    width: moderateScale(140),
+    maxWidth: 200,
+    alignItems: "center",
+    maxHeight: 90,
+  },
+  title: {
+    // maxWidth: '75%',
+    // width: '75%',
+    color: Colors.Text_Color,
+    // alignSelf: "center",
+    fontSize: RFValue(20),
+    // backgroundColor: 'pink'
+  },
+  Radate_Rating: {
+    color: "grey",
+    fontSize: RFValue(10),
   },
 });
 export default DetailScreen;

@@ -14,17 +14,19 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../ConstStyles/ColorFont";
+
 import React from "react";
 const width = Dimensions.get("screen").width;
-const TopBanner = ({ data }) => {
+const TopBanner = ({ data, naviagtion }) => {
   return (
     <FlatList
       pagingEnabled
       horizontal
       showsHorizontalScrollIndicator={false}
       data={data ?? [1, 2, 3, 4, 5]}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <View style={styles.container}>
+        <View style={styles.container} key={item.id}>
           <Image
             source={{
               uri: item.poster,
@@ -43,7 +45,10 @@ const TopBanner = ({ data }) => {
               {item?.name ?? "NA"}
             </Text>
             <View style={{ flexDirection: "row", gap: moderateScale(12) }}>
-              <TouchableOpacity style={styles.playBtn}>
+              <TouchableOpacity
+                style={styles.playBtn}
+                onPress={() => naviagtion.navigate("Detail", { item: item })}
+              >
                 <Ionicons name="play" size={moderateScale(15)} color="white" />
                 <Text style={styles.btnFont}>Play</Text>
               </TouchableOpacity>

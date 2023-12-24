@@ -66,3 +66,21 @@ export const Details = (id) => {
   const url = `${baseurl}/info?id=${id}`;
   return apicall(url);
 };
+
+export const Ep_list = (id) => {
+  const url = `${baseurl}/episodes/${id}`;
+  return apicall(url);
+};
+
+export const Stream_link = (id, server, subdub) => {
+  const url = `${baseurl}/episode-srcs?id=${id}&server=${server}&category=${subdub}`;
+  return apicall(url);
+};
+
+export const Available_servers = (id) => {
+  const url = `${baseurl}/servers?episodeId=${id}`;
+  return apicall(url);
+};
+
+
+

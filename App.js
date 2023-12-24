@@ -20,6 +20,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Easing } from "react-native";
 import DetailScreen from "./src/Screens/DetailScreen";
 import Stream_Ep from "./src/Screens/Stream_Ep";
+import Ep_List from "./src/Screens/Ep_List";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +36,7 @@ const TabNavigator = () => {
           tabBarShowLabel: false,
           tabBarStyle: {
             backgroundColor: Colors.Main_Color,
-            elevation: 0,
+            elevation: 10,
             // backgroundColor: "red",
             borderTopWidth: 0,
             height: moderateScale(57),
@@ -46,13 +47,16 @@ const TabNavigator = () => {
             // alignContent: "center",
             alignSelf: "center",
           },
+          
           tabBarBackground: () => (
+            
             <BlurView
               intensity={80}
               style={{
-                // ...StyleSheet.absoluteFillObject,
+                ...StyleSheet.absoluteFillObject,
                 overflow: "hidden",
-                background: Colors.Main_Color,
+                opacity: 0.4,
+                backgroundColor: "transparent",
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
               }}
@@ -192,6 +196,7 @@ const StackScreens = () => {
       />
       <Stack.Screen name="Detail" component={DetailScreen} />
       <Stack.Screen name="Stream" component={Stream_Ep} />
+      <Stack.Screen name="Eplist" component={Ep_List} />
     </Stack.Navigator>
   );
 };
@@ -202,6 +207,7 @@ export default function App() {
       <StatusBar />
       <StackScreens />
       {/* <SeeAll /> */}
+      {/* <Stream_Ep/> */}
     </NavigationContainer>
   );
 }

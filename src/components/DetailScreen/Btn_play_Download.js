@@ -11,10 +11,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 const height = Dimensions.get("window").height;
-const Btn_play_Download = ({ navigation, id }) => {
+const Btn_play_Download = ({ navigation, id, img }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
+        onPress={() => navigation.navigate("Stream", { id })}
         style={[styles.btn, { backgroundColor: Colors.Top_Btn_Color }]}
       >
         <Ionicons name="play" size={height * 0.028} color="white" />
