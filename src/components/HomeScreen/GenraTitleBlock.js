@@ -8,7 +8,7 @@ import {
 import { moderateScale } from "react-native-size-matters";
 import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Colors } from "../../ConstStyles/ColorFont";
+import { Colors, Fonts } from "../../ConstStyles/ColorFont";
 
 const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
@@ -44,10 +44,12 @@ const styles = StyleSheet.create({
     // fontSize: width*0.05,
     color: Colors.Text_Color,
     fontWeight: "600",
+    fontFamily: Fonts.medium,
   },
   see_all: {
     color: Colors.Top_Btn_Color,
-    fontWeight: "500",
+    fontWeight: "600",
+    fontFamily: Fonts.Regular,
     marginTop: moderateScale(6),
     marginRight: moderateScale(14),
     fontSize: RFValue(11),

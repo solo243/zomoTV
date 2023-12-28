@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale } from "react-native-size-matters";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { AntDesign } from "@expo/vector-icons";
-import { Colors } from "../ConstStyles/ColorFont";
+import { Colors, Fonts } from "../ConstStyles/ColorFont";
 import { Entypo } from "@expo/vector-icons";
 import Btn_play_Download from "../components/DetailScreen/Btn_play_Download";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -23,38 +23,41 @@ import TextTicker from "react-native-text-ticker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from "@expo/vector-icons";
 import { Loadingscreen } from "../components/Loading/Loadingscreen";
-import Slider from "../components/DetailScreen/Slider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { GetAllaSave, removeData, saveData } from "../hooks/CheckSave";
 import { Octicons } from "@expo/vector-icons";
+
+
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const DetailScreen = ({ navigation, route }) => {
   const rt = route.params.item;
-  const selected = rt.id;
-  console.log(route);
+  var selected = rt.id;
   const poster = rt.poster;
-  // console.log(rt.poster);
-  const [loading, setloading] = useState(true);
-  const [isSaved, setisSaved] = useState(false);
+
+
 
   useEffect(() => {
     FetchingData(selected);
     // GetAllaSave(selected);
-  }, []);
+  }, [selected]);
 
+  const [loading, setloading] = useState(true);
+  const [isSaved, setisSaved] = useState(false);
   const [data, setData] = useState();
   const [season, setseason] = useState([]);
+  const[currentId,setcurrentId] = useState()
   const FetchingData = async (selected) => {
     try {
+      setData();
       setloading(true);
       GetAllaSave(selected);
 
       const call = await Details(selected);
       setData(call?.anime);
       setseason(call);
-      console.log(call);
+      setcurrentId(call?.anime.info?.id)
     } catch (e) {
       console.log(e);
     } finally {
@@ -79,8 +82,9 @@ const DetailScreen = ({ navigation, route }) => {
         // setFf(JSON.parse(newgg));
         const dataArray = JSON.parse(newgg);
         const isSaved = dataArray.some((item) => item.id === id);
-        console.log(dataArray);
+        // console.log(dataArray);
         setisSaved(isSaved);
+        
       } else {
         console.log("No saved IDs found.");
         setisSaved(false);
@@ -228,7 +232,7 @@ const DetailScreen = ({ navigation, route }) => {
             <Text
               numberOfLines={4}
               style={{
-                color: "white",
+                color: Colors.Text_Color,
                 fontSize: RFPercentage(1.4),
                 marginTop: 10,
               }}
@@ -238,7 +242,7 @@ const DetailScreen = ({ navigation, route }) => {
             {/* TODO: This are the play and doneload buttons  */}
             <Btn_play_Download
               navigation={navigation}
-              id={selected}
+              id={currentId}
               img={data?.info?.poster}
             />
 
@@ -274,15 +278,16 @@ const styles = StyleSheet.create({
     width: "75%",
     fontSize: RFValue(12),
     // backgroundColor: "pink",
-    color: "white",
+    color: Colors.Text_Color,
     alignSelf: "center",
     textAlign: "center",
   },
   EP_title: {
-    color: "white",
+    color: Colors.Text_Color,
     fontWeight: "600",
     fontSize: RFValue(17),
     marginTop: 22,
+    fontFamily: Fonts.Bold,
     marginBottom: 7,
   },
   image: {
@@ -298,11 +303,12 @@ const styles = StyleSheet.create({
     marginStart: 3,
   },
   text: {
-    color: "white",
+    color: Colors.Text_Color,
     fontSize: RFValue(12),
     width: width * 0.3,
     alignSelf: "center",
     textAlign: "center",
+    fontFamily: Fonts.Semibold,
   },
   PosterImage: {
     height: height * 0.275,

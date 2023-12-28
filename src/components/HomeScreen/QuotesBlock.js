@@ -1,7 +1,7 @@
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { randomell } from "../../Api/quotes";
-import { Colors } from "../../ConstStyles/ColorFont";
+import { Colors ,Fonts} from "../../ConstStyles/ColorFont";
 const QuotesBlock = () => {
   useEffect(() => {
     kk();
@@ -35,12 +35,14 @@ const styles = StyleSheet.create({
   },
   quotes_text: {
     color: "white",
+    fontFamily: Fonts.Regular
   },
   cahr_and_anime_text: {
     color: Colors.Top_Btn_Color,
     left: 0,
+    fontFamily: Fonts.Bold,
     display: "flex",
-    fontWeight: "500",
+    fontWeight: "600",
   },
   container_cahrAndAnime: {
     width: "100%",

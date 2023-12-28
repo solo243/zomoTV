@@ -82,5 +82,7 @@ export const Available_servers = (id) => {
   return apicall(url);
 };
 
-
-
+export const NewStreamLink = (id, subdub) => {
+  const url = `${baseurl}/episode-srcs?id=${id}&category=${subdub}`;
+  return apicall(url);
+};

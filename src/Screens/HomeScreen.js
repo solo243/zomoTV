@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginStart: moderateScale(20),
   },
   cont_topmargin: {
-    marginTop: moderateScale(17)
+    marginTop: moderateScale(17),
   },
 });
 export default HomeScreen;

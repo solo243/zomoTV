@@ -13,9 +13,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../ConstStyles/ColorFont";
+import { Colors, Fonts } from "../../ConstStyles/ColorFont";
 
-import React from "react";
+import TextTicker from "react-native-text-ticker";
+
+import React, { useCallback } from "react";
 const width = Dimensions.get("screen").width;
 const TopBanner = ({ data, naviagtion }) => {
   return (
@@ -25,7 +27,7 @@ const TopBanner = ({ data, naviagtion }) => {
       showsHorizontalScrollIndicator={false}
       data={data ?? [1, 2, 3, 4, 5]}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
+      renderItem={useCallback(({ item }) => (
         <View style={styles.container} key={item.id}>
           <Image
             source={{
@@ -78,7 +80,7 @@ const TopBanner = ({ data, naviagtion }) => {
             </View>
           </View>
         </View>
-      )}
+      ),[])}
     />
   );
 };
@@ -111,7 +113,8 @@ const styles = StyleSheet.create({
     maxWidth: moderateScale(220),
     fontSize: RFValue(21),
     color: Colors.Text_Color,
-    fontWeight: "500",
+    fontWeight: "600",
+    fontFamily: Fonts.medium,
   },
   boxTitleandBtn: {
     height: 40,
@@ -135,8 +138,9 @@ const styles = StyleSheet.create({
   },
   btnFont: {
     fontSize: RFValue(13),
+    fontFamily: Fonts.Bold,
     color: Colors.Text_Color,
-    fontWeight: "500",
+    fontWeight: "600",
   },
 });
 

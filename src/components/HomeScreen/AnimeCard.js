@@ -8,35 +8,37 @@ import {
   Dimensions,
 } from "react-native";
 import { moderateScale } from "react-native-size-matters";
-import { Colors } from "../../ConstStyles/ColorFont";
+import { Colors, Fonts } from "../../ConstStyles/ColorFont";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { FlashList } from "@shopify/flash-list";
+import { useCallback } from "react";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const AnimeCard = ({ data, navigation }) => {
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("Detail", { item: item })}
-    >
-      <View>
-        <Image
-          source={{
-            uri: item.poster,
-          }}
-          style={styles.PosterImage}
-        />
-        <View style={styles.Tiltle_container}>
-          <Text numberOfLines={1} style={styles.title}>
-            {item.name ?? "NA"}
-          </Text>
-          <Text style={styles.Radate_Rating}>
-            {item.type ?? "TV"} - Rating - {item.rating ?? "13+"}
-          </Text>
+  const renderItem = 
+    ({ item }) => (
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Detail", { item: item })}
+      >
+        <View>
+          <Image
+            source={{
+              uri: item.poster,
+            }}
+            style={styles.PosterImage}
+          />
+          <View style={styles.Tiltle_container}>
+            <Text numberOfLines={1} style={styles.title}>
+              {item.name ?? "NA"}
+            </Text>
+            <Text style={styles.Radate_Rating}>
+              {item.type ?? "TV"} - Rating - {item.rating ?? "13+"}
+            </Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
   return (
     <View style={styles.container}>
       <FlashList
@@ -80,12 +82,13 @@ const styles = StyleSheet.create({
     maxWidth: 140,
     color: Colors.Text_Color,
     alignSelf: "center",
-    fontSize: RFValue(13),
-    // fontSize: width*0.02
-    // fontSize: RFPercentage(10)
+    fontSize: RFValue(11),
+    fontWeight: "600",
+    fontFamily: Fonts.Regular,
   },
   Radate_Rating: {
     color: "grey",
+    fontFamily: Fonts.Regular,
     fontSize: RFValue(10),
   },
 });

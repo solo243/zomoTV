@@ -21,7 +21,9 @@ import { Easing } from "react-native";
 import DetailScreen from "./src/Screens/DetailScreen";
 import Stream_Ep from "./src/Screens/Stream_Ep";
 import Ep_List from "./src/Screens/Ep_List";
+import TestJs from "./TestJs";
 
+import T2 from "./src/Screens/T2";
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
@@ -40,26 +42,27 @@ const TabNavigator = () => {
             // backgroundColor: "red",
             borderTopWidth: 0,
             height: moderateScale(57),
-            maxHeight: 150,
+            maxHeight: 80,
             // width: "100%",
             width: "97%",
             maxWidth: 700,
             // alignContent: "center",
             alignSelf: "center",
           },
-          
+
           tabBarBackground: () => (
-            
             <BlurView
               intensity={80}
-              style={{
-                ...StyleSheet.absoluteFillObject,
-                overflow: "hidden",
-                opacity: 0.4,
-                backgroundColor: "transparent",
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-              }}
+              style={
+                {
+                  // ...StyleSheet.absoluteFillObject,
+                  // overflow: "hidden",
+                  // opacity: 0.4,
+                  // backgroundColor: "transparenst",
+                  // borderTopLeftRadius: 20,
+                  // borderTopRightRadius: 20,
+                }
+              }
             />
           ),
         }}
@@ -205,9 +208,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar />
-      <StackScreens />
+      {/* <StackScreens /> */}
       {/* <SeeAll /> */}
       {/* <Stream_Ep/> */}
+      <T2 />
+      {/* <TestJs /> */}
     </NavigationContainer>
   );
 }

@@ -14,6 +14,7 @@ const Ep_List = ({ route, navigation }) => {
   const serveid = rr.subdub;
   const server = rr.servername;
   const isfocus = useIsFocused();
+  console.log(id)
 
   useEffect(() => {
     fetchingdata(id, server, serveid);
@@ -26,6 +27,7 @@ const Ep_List = ({ route, navigation }) => {
     const call = await Stream_link(id, server, dubsub);
     setdata(call.sources);
     setloading(false);
+    console.log(call)
   };
 
   let backButtonPressCount = 0;
@@ -67,8 +69,8 @@ const [loading,setloading] = useState(true)
 
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>
-      <Video
-        source={{ uri: data[0].url ?? "https://goolekdsa/.com" }}
+      {/* <Video
+        source={{uri: "https://goolekdsa/.com" }}
         fullscreen={true}
         
         controls={true}
@@ -99,7 +101,7 @@ const [loading,setloading] = useState(true)
         }}
         resizeMode="contain"
         style={{ height: "100%", width: "100%" }}
-      />
+      /> */}
     </View>
   );
 };

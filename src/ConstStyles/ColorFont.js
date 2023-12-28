@@ -1,11 +1,4 @@
-// export const Colors = {
-//   Main_Color: "#2E2B54",
-//   Secend_Color: "#8380B1",
-//   Text_Color: "white",
-//   Linear1: "rgba(46, 43, 84, 0.4)",
-// Top_Btn_Color: "#00bfb4",
-//   Linear2: "rgba(46, 43, 84, 1)",
-// };
+
 
 // TODO Preset one
 // export const Colors = {
@@ -28,23 +21,101 @@
 //   Linear2: "rgba(24, 26, 32, 1)",
 //   Bottom_Bar_Passive: "#939393",
 // };
+// TODO: Preset 3
+// export const Colors = {
+//   Main_Color: "#151c22",
+//   Secend_Color: "#8380B1",
+//   Text_Color: "#eef0f2",
+//   Linear1: "rgba(24, 26, 32, 0.4)",
+//   Top_Btn_Color: "#ff0039",
+//   Linear2: "rgba(24, 26, 32, 1)",
+//   Font_family: 'NunitoSans_7pt_SemiExpanded-Regular',
+//   Bottom_Bar_Passive: "#939393",
+// };
+
+// TODO: Preset 4
+// export const Colors = {
+//   Main_Color: "#151c22",
+//   Secend_Color: "#8380B1",
+//   Text_Color: "#eef0f2",
+//   Linear1: "rgba(24, 26, 32, 0.4)",
+//   Top_Btn_Color: "#ff0039",
+//   Linear2: "rgba(24, 26, 32, 1)",
+//   Font_family: "NunitoSans_7pt_SemiExpanded-Regular",
+//   Bottom_Bar_Passive: "#939393",
+// };
+
+// TODO: Preset 5
+// export const Colors = {
+//   Main_Color: "#101010",
+//   Secend_Color: "#8380B1",
+//   Text_Color: "#eef0f2",
+//   Linear1: "rgba(16, 16, 16, 0.4)",
+//   Top_Btn_Color: "#00bfb4",
+//   Linear2: "rgba(16, 16, 16, 1)",
+//   Font_family: 'NunitoSans_7pt_SemiExpanded-Regular',
+//   Bottom_Bar_Passive: "#939393",
+// };
 
 export const Colors = {
-  Main_Color: "#151c22",
+  Main_Color: "#101010",
   Secend_Color: "#8380B1",
   Text_Color: "#eef0f2",
-  Linear1: "rgba(24, 26, 32, 0.4)",
-  Top_Btn_Color: "#ff0039",
-  Linear2: "rgba(24, 26, 32, 1)",
+  Linear1: "rgba(16, 16, 16, 0.4)",
+  Top_Btn_Color: "#00bfb4",
+  Linear2: "rgba(16, 16, 16, 1)",
+  Font_family: 'NunitoSans_7pt_SemiExpanded-Regular',
   Bottom_Bar_Passive: "#939393",
 };
 
-// export const Colors = {
-//   Main_Color: "white",
-//   Secend_Color: "#8380B1",
-//   Text_Color: "black",
-//   Linear1: "rgba(24, 26, 32, 0.4)",
-//   Top_Btn_Color: "green",
-//   Linear2: "rgba(24, 26, 32, 1)",
-//   Bottom_Bar_Passive: "#939393",
-// };
+
+
+
+export const preset = {
+  Colors: {
+    Main_Color: "#101010",
+    Secend_Color: "#8380B1",
+    Text_Color: "#eef0f2",
+    Linear1: "rgba(16, 16, 16, 0.4)",
+    Top_Btn_Color: "#00bfb4",
+    Linear2: "rgba(16, 16, 16, 1)",
+    Font_family: 'NunitoSans_7pt_SemiExpanded-Regular',
+    Bottom_Bar_Passive: "#939393",
+  },
+  Colors1: {
+      Main_Color: "#151c22",
+      Secend_Color: "#8380B1",
+      Text_Color: "#eef0f2",
+      Linear1: "rgba(24, 26, 32, 0.4)",
+      Top_Btn_Color: "#ff0039",
+      Linear2: "rgba(24, 26, 32, 1)",
+      Font_family: "NunitoSans_7pt_SemiExpanded-Regular",
+      Bottom_Bar_Passive: "#939393",
+    },
+}
+
+
+
+
+
+
+
+
+
+// FIX: All Fonts 
+
+
+// export const Fonts = {
+//   Bold: 'Poppins-Bold',
+//   Regular: 'Poppins-Black',
+//   Semibold: 'Poppins-SemiBold'
+// }
+
+
+export const Fonts = {
+  Bold: "Inter-Bold",
+  Regular: "Inter-Regular",
+  Semibold: "Inter-SemiBold",
+  medium: "Inter-Medium",
+};
+
