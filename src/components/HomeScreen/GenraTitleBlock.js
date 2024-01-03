@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     // fontSize: width*0.05,
     color: Colors.Text_Color,
     fontWeight: "600",
-    fontFamily: Fonts.medium,
+    fontFamily: Fonts.Bold,
   },
   see_all: {
     color: Colors.Top_Btn_Color,

@@ -18,7 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const SaveScreen = ({ navigation }) => {
-  const [data, setData] = useState([]);
+  const [newdata, setData] = useState([]);
   useEffect(() => {
     GetAllaSave();
   }, []);
@@ -26,7 +26,7 @@ const SaveScreen = ({ navigation }) => {
     // AsyncStorage.clear()
     const newgg = await AsyncStorage.getItem("idforsave");
     setData(newgg);
-    console.log(data);
+    console.log(newdata);
   };
 
   const Empty = () => {
@@ -48,80 +48,40 @@ const SaveScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
-      <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
-        <View
-          style={{
-            height: moderateScale(60),
-            maxHeight: 200,
-            justifyContent: "space-between",
-            flexDirection: "row",
-            alignItems: "center",
-
-            // backgroundColor: "red",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(20),
-              fontWeight: "600",
-              color: "white",
-              marginStart: 30,
-            }}
-          >
-            My List
-          </Text>
-          <TouchableOpacity
-            style={{ marginRight: 30 }}
-            onPress={() => navigation.navigate("Search")}
-          >
-            <Feather
-              name="search"
-              size={moderateScale(24)}
-              color={Colors.Top_Btn_Color}
-            />
-          </TouchableOpacity>
-        </View>
-        <ScrollView>
-          {data.length > 0 ? (
+      <View style={{ flex: 1 }}>
+        <FlatList
+          numColumns={2}
+          maxToRenderPerBatch={2}
+          // keyExtractor={(item) => item.id}
+          data={[1,2,3,4,5,6,7,8]}
+          // data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+          renderItem={({ item }) => (
             <View
               style={{
-                alignItems: "center",
-                width: "97%",
-                alignSelf: "center",
-                gap: 10,
-                justifyContent: "center",
-                // backgroundColor: "red",
+                flex: 1,
+                backgroundColor: "grey",
+                height: moderateScale(250),
+                maxHeight: 400,
+
+                borderRadius: 10, // width: ,
+                margin: 10,
+                width: moderateScale(200),
+                maxWidth: 190,
               }}
             >
-              <FlatList
-                // contentContainerStyle={{
-                //   // backgroundColor: 'pink',
-                //   alignItems: "center",
-                // }}
-                // columnWrapperStyle={{
-                //   justifyContent: "space-between",
-                //   // backgroundColor: "blue",
-                //   width: "90%",
-                //   alignSelf: "center",
-                //   justifyContent: "center",
-                // }}
-                numColumns={2}
-                data={data ?? [1, 2, 3, 4]}
-                renderItem={({ item }) => (
-                  <View>
-                    <Image
-                      source={require("./ph.jpg")}
-                      style={styles.PosterImage}
-                    />
-                    <Text>{item.id ?? "NA"}</Text>
-                  </View>
-                )}
+              <Image
+                // source={{ uri: item.img }}
+                // source={require("./ph.jpg")}
+                style={{
+                  flex: 1,
+                  height: "100%",
+                  width: "100%",
+                  borderRadius: 10,
+                }}
               />
             </View>
-          ) : (
-            <Empty />
           )}
-        </ScrollView>
+        />
       </View>
     </SafeAreaView>
   );

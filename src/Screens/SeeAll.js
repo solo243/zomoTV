@@ -29,22 +29,23 @@ const SeeAll = ({ navigation, route }) => {
   // console.warn(tt);
 
   useEffect(() => {
-    // fetchingdata(tt, cout);
-    // IsfromGenra(1);
     {
       genra ? IsfromGenra(cout) : fetchingdata(tt, cout);
     }
   }, [cout]);
 
+  const [loading, setloading] = useState(false);
+
   const hadnlepress = () => {
+    setloading(true);
     setcout(cout + 1);
   };
 
   const PrevButton = () => {
+    setloading(true);
     setcout(cout - 1);
   };
   const [data, setdata] = useState([]);
-  const [loading, setloading] = useState(false);
 
   const fetchingdata = async (type, page) => {
     setloading(true);
@@ -82,29 +83,29 @@ const SeeAll = ({ navigation, route }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.Main_Color }}>
+      <View style={styles.header_Container}>
+        <Text style={styles.header_Text}>{title}</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Search")}
+          style={styles.searchContainer}
+        >
+          <Octicons
+            name="search"
+            size={moderateScale(25)}
+            color={Colors.Top_Btn_Color}
+            style={{
+              alignSelf: "center",
+              marginStart: 20,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
       <ScrollView>
         <View>
-          <View style={styles.header_Container}>
-            <Text style={styles.header_Text}>{title}</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Search")}
-              style={styles.searchContainer}
-            >
-              <Octicons
-                name="search"
-                size={moderateScale(25)}
-                color={Colors.Top_Btn_Color}
-                style={{
-                  alignSelf: "center",
-                  marginStart: 20,
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-
           <View style={styles.Flatlist_container}>
-            <FlashList
-              estimatedItemSize={80}
+            <FlatList
+              estimatedItemSize={100}
+              // onScrollEndDrag={hadnlepress}
               numColumns={2}
               data={data}
               keyExtractor={(item) => item.id}
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
   },
 
   header_Container: {
-    height: moderateScale(60),
+    height: moderateScale(50),
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",

@@ -27,7 +27,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { GetAllaSave, removeData, saveData } from "../hooks/CheckSave";
 import { Octicons } from "@expo/vector-icons";
 
-
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
@@ -35,8 +34,6 @@ const DetailScreen = ({ navigation, route }) => {
   const rt = route.params.item;
   var selected = rt.id;
   const poster = rt.poster;
-
-
 
   useEffect(() => {
     FetchingData(selected);
@@ -47,7 +44,7 @@ const DetailScreen = ({ navigation, route }) => {
   const [isSaved, setisSaved] = useState(false);
   const [data, setData] = useState();
   const [season, setseason] = useState([]);
-  const[currentId,setcurrentId] = useState()
+  const [currentId, setcurrentId] = useState();
   const FetchingData = async (selected) => {
     try {
       setData();
@@ -57,7 +54,7 @@ const DetailScreen = ({ navigation, route }) => {
       const call = await Details(selected);
       setData(call?.anime);
       setseason(call);
-      setcurrentId(call?.anime.info?.id)
+      setcurrentId(call?.anime.info?.id);
     } catch (e) {
       console.log(e);
     } finally {
@@ -84,7 +81,6 @@ const DetailScreen = ({ navigation, route }) => {
         const isSaved = dataArray.some((item) => item.id === id);
         // console.log(dataArray);
         setisSaved(isSaved);
-        
       } else {
         console.log("No saved IDs found.");
         setisSaved(false);

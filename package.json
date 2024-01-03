@@ -43,6 +43,7 @@
     "react-native-skeleton-placeholder": "^5.2.4",
     "react-native-text-ticker": "^1.14.0",
     "react-native-video": "^5.2.1",
+    "react-native-youtube": "^2.0.2",
     "sharp-cli": "^4.2.0"
   },
   "devDependencies": {

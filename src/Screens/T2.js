@@ -35,7 +35,7 @@ const T2 = ({ route, navigation }) => {
 
   useEffect(() => {
     // GetAnimeServers()
-    // lkl("jujutsu-kaisen-2nd-season-18413");
+    lkl("jujutsu-kaisen-2nd-season-18413");
   }, []);
   const [epdata, setepdata] = useState([]);
 
@@ -48,25 +48,8 @@ const T2 = ({ route, navigation }) => {
     setloading(false);
   };
 
-  const [epid, setepid] = useState();
-  const [ava_sub, setAva_sub] = useState();
-  const [ava_dub, setAva_dub] = useState();
   const [lloading, setloading] = useState(true);
-
-  // const servers = async (id, number) => {
-  //   setloading(true)
-  //   setcurrent(number);
-  //   setepid(id);
-  //   const call = await Available_servers(id);
-  //   setAva_sub(call.sub);
-  //   setloading(false)
-  //   // console.log()
-  //   setAva_dub(call.dub);
-  //   // this.RBSheet.open();
-
-  //   // setcurrent(number);
-  // };
-
+  const [selectedId, setselectedId] = useState();
   const [current, setcurrent] = useState(1);
   useEffect(() => {
     // handlePress();
@@ -82,6 +65,7 @@ const T2 = ({ route, navigation }) => {
   const handlePress = (id, number) => {
     // setcurrent(number);
     GetAnimeServers(id);
+    setselectedId(id);
     this.RBSheet.open();
   };
 
@@ -217,22 +201,31 @@ const T2 = ({ route, navigation }) => {
               }}
             >
               <View style={{ gap: moderateScale(18) }}>
-                {subdubinfo.sub == 0 ? (
+                {subdubinfo?.sub == 0 ? (
                   <View />
                 ) : (
                   <TouchableOpacity
                     style={styles.sub_dub_btn}
-                    onPress={() => console.log("Sub")}
+                    onPress={() => navigation.navigate("Eplist", {
+                        id: selectedId,
+                        subdub: "sub",
+                      })
+                    }
                   >
                     <Text style={styles.sub_dub_btn_text}>Sub</Text>
                   </TouchableOpacity>
                 )}
-                {subdubinfo.dub == 0 ? (
+                {subdubinfo?.dub == 0 ? (
                   <View />
                 ) : (
                   <TouchableOpacity
                     style={styles.sub_dub_btn}
-                    onPress={() => console.log("Dub")}
+                    onPress={() =>
+                      navigation.navigate("Eplist", {
+                        id: selectedId,
+                        subdub: "dub",
+                      })
+                    }
                   >
                     <Text style={styles.sub_dub_btn_text}>Dub</Text>
                   </TouchableOpacity>
