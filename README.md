@@ -1,6 +1,6 @@
 <div align="center">
 <a href="#">
-    <img src="./ReadmeImages/hhj.png"/ style="width: 550px" >
+    <img src="./ReadmeImages/icon.jpg"/ style="width: 550px" >
 </a>
 </div>
 
